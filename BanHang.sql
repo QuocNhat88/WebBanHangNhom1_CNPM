@@ -1,6 +1,7 @@
 ﻿--bước 1
 CREATE DATABASE BanHang;
 GO
+drop database BanHang
 --bước 2
 USE BanHang;
 GO
@@ -80,6 +81,9 @@ INSERT INTO SanPham (TenSanPham, MoTa, Gia, SoLuong, AnhDaiDien, DanhMucID) VALU
 (N'Dell XPS 15', N'Laptop Dell XPS 15 2022', 40000000, 25, 'dellxps15.jpg', 2),
 (N'Tai nghe AirPods Pro', N'Tai nghe không dây Apple AirPods Pro', 6000000, 100, 'airpodspro.jpg', 3),
 (N'Ốp lưng iPhone', N'Ốp lưng iPhone các loại', 200000, 200, 'oplungiphone.jpg', 3);
+-- sửa mô tả lên max
+ALTER TABLE SanPham
+ALTER COLUMN MoTa NVARCHAR(MAX);
 
 INSERT INTO SanPham (TenSanPham, MoTa, Gia, SoLuong, AnhDaiDien, DanhMucID) VALUES
 (N'iPhone 13 Pro', N'Điện thoại Apple iPhone 13 Pro 128GB với thiết kế tinh tế và sắc nét, là mẫu điện thoại được giới trẻ yêu thích', 25000000, 50, 'iphone13pro.jpg', 1),
