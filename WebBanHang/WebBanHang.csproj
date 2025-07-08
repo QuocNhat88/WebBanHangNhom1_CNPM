@@ -77,6 +77,7 @@
     <Content Include="dangky.aspx" />
     <Content Include="dangnhap.aspx" />
     <Content Include="dienthoai.aspx" />
+    <Content Include="GiamGiaNV.aspx" />
     <Content Include="giohang.aspx" />
     <Content Include="Global.asax" />
     <Content Include="images\acer_aspire_vero.jpg" />
@@ -257,6 +258,13 @@
     </Compile>
     <Compile Include="dienthoai.aspx.designer.cs">
       <DependentUpon>dienthoai.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GiamGiaNV.aspx.cs">
+      <DependentUpon>GiamGiaNV.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GiamGiaNV.aspx.designer.cs">
+      <DependentUpon>GiamGiaNV.aspx</DependentUpon>
     </Compile>
     <Compile Include="giohang.aspx.cs">
       <DependentUpon>giohang.aspx</DependentUpon>
