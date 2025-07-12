@@ -11,7 +11,7 @@ namespace WebBanHang
 {
 
 
-    public partial class lienhe
+    public partial class LienHe
     {
 
         /// <summary>
@@ -24,69 +24,6 @@ namespace WebBanHang
         protected global::System.Web.UI.WebControls.Label lblThongBao;
 
         /// <summary>
-        /// lblHoTen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblHoTen;
-
-        /// <summary>
-        /// txtHoTen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtHoTen;
-
-        /// <summary>
-        /// rfvHoTen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvHoTen;
-
-        /// <summary>
-        /// lblEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEmail;
-
-        /// <summary>
-        /// txtEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmail;
-
-        /// <summary>
-        /// rfvEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvEmail;
-
-        /// <summary>
-        /// lblTieuDe control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTieuDe;
-
-        /// <summary>
         /// txtTieuDe control.
         /// </summary>
         /// <remarks>
@@ -94,15 +31,6 @@ namespace WebBanHang
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTieuDe;
-
-        /// <summary>
-        /// lblNoiDung control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNoiDung;
 
         /// <summary>
         /// txtNoiDung control.
@@ -114,21 +42,21 @@ namespace WebBanHang
         protected global::System.Web.UI.WebControls.TextBox txtNoiDung;
 
         /// <summary>
-        /// rfvNoiDung control.
+        /// btnGui control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvNoiDung;
+        protected global::System.Web.UI.WebControls.Button btnGui;
 
         /// <summary>
-        /// btnGuiLienHe control.
+        /// gvLichSu control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuiLienHe;
+        protected global::System.Web.UI.WebControls.GridView gvLichSu;
     }
 }
