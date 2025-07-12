@@ -11,53 +11,35 @@ namespace WebBanHang
 {
 
 
-    public partial class QlyPhanHoi
+    public partial class TraLoiLienHe
     {
 
         /// <summary>
-        /// gvPhanHoi control.
+        /// gvLienHe control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvPhanHoi;
+        protected global::System.Web.UI.WebControls.GridView gvLienHe;
 
         /// <summary>
-        /// pnlTraLoi control.
+        /// pnlReply control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlTraLoi;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlReply;
 
         /// <summary>
-        /// lblEmailTraLoi control.
+        /// txtNoiDungPhanHoi control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEmailTraLoi;
-
-        /// <summary>
-        /// lblHoTenTraLoi control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblHoTenTraLoi;
-
-        /// <summary>
-        /// txtNoiDungTraLoi control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNoiDungTraLoi;
+        protected global::System.Web.UI.WebControls.TextBox txtNoiDungPhanHoi;
 
         /// <summary>
         /// btnGuiPhanHoi control.
