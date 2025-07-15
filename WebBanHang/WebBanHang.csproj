@@ -80,6 +80,7 @@
     <Content Include="dienthoai.aspx" />
     <Content Include="giohang.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="hoantat.aspx" />
     <Content Include="images\acer_aspire_vero.jpg" />
     <Content Include="images\acer_nitro_5.jpg" />
     <Content Include="images\acer_predator_helios.jpg" />
@@ -218,8 +219,11 @@
     <Content Include="laptop.aspx" />
     <Content Include="lienhe.aspx" />
     <Content Include="phukien.aspx" />
+    <Content Include="QliSanPham.aspx" />
     <Content Include="QlyPhanHoi.aspx" />
     <Content Include="thanhtoan.aspx" />
+    <Content Include="Theogioidonhang.aspx" />
+    <Content Include="timkiem.aspx" />
     <Content Include="trangchu.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -276,6 +280,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="hoantat.aspx.cs">
+      <DependentUpon>hoantat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="hoantat.aspx.designer.cs">
+      <DependentUpon>hoantat.aspx</DependentUpon>
+    </Compile>
     <Compile Include="laptop.aspx.cs">
       <DependentUpon>laptop.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -299,6 +309,12 @@
       <DependentUpon>phukien.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QliSanPham.aspx.cs">
+      <DependentUpon>QliSanPham.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="QliSanPham.aspx.designer.cs">
+      <DependentUpon>QliSanPham.aspx</DependentUpon>
+    </Compile>
     <Compile Include="QlyPhanHoi.aspx.cs">
       <DependentUpon>QlyPhanHoi.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -319,6 +335,18 @@
     </Compile>
     <Compile Include="thanhtoan.aspx.designer.cs">
       <DependentUpon>thanhtoan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Theogioidonhang.aspx.cs">
+      <DependentUpon>Theogioidonhang.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Theogioidonhang.aspx.designer.cs">
+      <DependentUpon>Theogioidonhang.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="timkiem.aspx.cs">
+      <DependentUpon>timkiem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="timkiem.aspx.designer.cs">
+      <DependentUpon>timkiem.aspx</DependentUpon>
     </Compile>
     <Compile Include="trangchu.aspx.cs">
       <DependentUpon>trangchu.aspx</DependentUpon>
