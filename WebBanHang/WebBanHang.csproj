@@ -53,6 +53,7 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -72,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin\qlsanpham.aspx" />
+    <Content Include="BaoCaoDoanhThu.aspx" />
     <Content Include="chitietsp.aspx" />
     <Content Include="css\style.css" />
     <Content Include="dangky.aspx" />
@@ -230,6 +232,13 @@
     </Compile>
     <Compile Include="admin\qlsanpham.aspx.designer.cs">
       <DependentUpon>qlsanpham.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaoCaoDoanhThu.aspx.cs">
+      <DependentUpon>BaoCaoDoanhThu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaoCaoDoanhThu.aspx.designer.cs">
+      <DependentUpon>BaoCaoDoanhThu.aspx</DependentUpon>
     </Compile>
     <Compile Include="chitietsp.aspx.cs">
       <DependentUpon>chitietsp.aspx</DependentUpon>

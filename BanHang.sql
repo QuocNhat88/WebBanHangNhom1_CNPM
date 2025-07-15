@@ -337,5 +337,11 @@ CREATE TABLE PhanHoiAdmin (
     -- Có thể thêm AdminID nếu có bảng quản lý Admin
     -- AdminID INT FOREIGN KEY REFERENCES Admin(AdminID)
 );
+ALTER TABLE LienHe
+ADD KhachHangID INT;
+
+ALTER TABLE LienHe
+ADD CONSTRAINT FK_LienHe_KhachHang
+FOREIGN KEY (KhachHangID) REFERENCES KhachHang(KhachHangID);
 
 

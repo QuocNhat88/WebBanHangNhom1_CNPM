@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Trả lời liên hệ" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="TraLoiLienHe.aspx.cs" Inherits="WebBanHang.TraLoiLienHe" %>
+﻿r<%@ Page Title="Trả lời liên hệ" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="TraLoiLienHe.aspx.cs" Inherits="WebBanHang.TraLoiLienHe" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
