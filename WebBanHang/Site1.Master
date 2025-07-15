@@ -21,7 +21,7 @@
                 </div>
                 <div class="search">
                     <asp:TextBox ID="txtTimKiem" runat="server" placeholder="Tìm kiếm sản phẩm..."></asp:TextBox>
-                    <asp:Button ID="btnTimKiem" runat="server" Text="Tìm" CssClass="search-button" />
+                    <asp:Button ID="btnTimKiem" runat="server" Text="Tìm" CssClass="search-button" OnClick="btnTimKiem_Click" />
                 </div>
                 <div class="user-menu">
                     <a href="giohang.aspx" class="cart-link" runat="server">

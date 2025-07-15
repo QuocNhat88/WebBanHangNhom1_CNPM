@@ -45,12 +45,15 @@ header {
     }
 
 .search-button {
+    border-style: none;
+    border-color: inherit;
+    border-width: medium;
     padding: 0 15px;
     background: #3498db;
     color: white;
-    border: none;
     border-radius: 0 4px 4px 0;
     cursor: pointer;
+    height: 25px;
 }
 
 .user-menu {

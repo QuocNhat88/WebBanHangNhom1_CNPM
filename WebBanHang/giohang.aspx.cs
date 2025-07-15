@@ -53,17 +53,41 @@ namespace WebBanHang
             }
         }
 
+        //private DataTable GetCartItems(int khachHangID)
+        //{
+        //    string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
+        //    using (SqlConnection conn = new SqlConnection(connectionString))
+        //    {
+        //        string query = @"SELECT c.ChiTietID, s.SanPhamID, s.TenSanPham, s.AnhDaiDien, 
+        //                       c.DonGia, c.SoLuong, c.ThanhTien 
+        //                       FROM ChiTietDonHang c 
+        //                       JOIN DonHang d ON c.DonHangID = d.DonHangID 
+        //                       JOIN SanPham s ON c.SanPhamID = s.SanPhamID 
+        //                       WHERE d.KhachHangID = @KhachHangID AND d.TrangThai = 'Giỏ hàng'";
+
+        //        SqlCommand cmd = new SqlCommand(query, conn);
+        //        cmd.Parameters.AddWithValue("@KhachHangID", khachHangID);
+
+        //        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //        DataTable dt = new DataTable();
+        //        da.Fill(dt);
+
+        //        return dt;
+        //    }
+        //}
         private DataTable GetCartItems(int khachHangID)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
+                // Đảm bảo câu truy vấn này chỉ lấy sản phẩm trong giỏ hàng chưa thanh toán
                 string query = @"SELECT c.ChiTietID, s.SanPhamID, s.TenSanPham, s.AnhDaiDien, 
-                               c.DonGia, c.SoLuong, c.ThanhTien 
-                               FROM ChiTietDonHang c 
-                               JOIN DonHang d ON c.DonHangID = d.DonHangID 
-                               JOIN SanPham s ON c.SanPhamID = s.SanPhamID 
-                               WHERE d.KhachHangID = @KhachHangID AND d.TrangThai = 'Giỏ hàng'";
+                       c.DonGia, c.SoLuong, c.ThanhTien 
+                       FROM ChiTietDonHang c 
+                       JOIN DonHang d ON c.DonHangID = d.DonHangID 
+                       JOIN SanPham s ON c.SanPhamID = s.SanPhamID 
+                       WHERE d.KhachHangID = @KhachHangID 
+                       AND d.TrangThai = 'Giỏ hàng'"; // Quan trọng: chỉ lấy trạng thái "Giỏ hàng"
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@KhachHangID", khachHangID);
@@ -187,6 +211,7 @@ namespace WebBanHang
             }
         }
 
+
         protected void btnDatHang_Click(object sender, EventArgs e)
         {
             if (!IsUserLoggedIn()) return;
@@ -194,9 +219,8 @@ namespace WebBanHang
             try
             {
                 int khachHangID = (int)Session["KhachHangID"];
-
-                // Kiểm tra giỏ hàng có sản phẩm không
                 DataTable dt = GetCartItems(khachHangID);
+
                 if (dt.Rows.Count == 0)
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "emptyCart",
@@ -204,6 +228,7 @@ namespace WebBanHang
                     return;
                 }
 
+                // Chuyển trạng thái từ "Giỏ hàng" sang "Chờ xử lý" chứ không xóa
                 UpdateOrderStatus(khachHangID);
                 Response.Redirect("thanhtoan.aspx");
             }
@@ -220,13 +245,13 @@ namespace WebBanHang
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = @"UPDATE DonHang SET 
-                                TrangThai = 'Chờ xử lý', 
-                                NgayDat = GETDATE(),
-                                TongTien = (SELECT SUM(ThanhTien) FROM ChiTietDonHang 
-                                           WHERE DonHangID = (SELECT DonHangID FROM DonHang 
-                                                             WHERE KhachHangID = @KhachHangID 
-                                                             AND TrangThai = 'Giỏ hàng'))
-                                WHERE KhachHangID = @KhachHangID AND TrangThai = 'Giỏ hàng'";
+                        TrangThai = 'Chờ xử lý', 
+                        NgayDat = GETDATE(),
+                        TongTien = (SELECT SUM(ThanhTien) FROM ChiTietDonHang 
+                                   WHERE DonHangID = (SELECT DonHangID FROM DonHang 
+                                                     WHERE KhachHangID = @KhachHangID 
+                                                     AND TrangThai = 'Giỏ hàng'))
+                        WHERE KhachHangID = @KhachHangID AND TrangThai = 'Giỏ hàng'";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@KhachHangID", khachHangID);
@@ -235,5 +260,6 @@ namespace WebBanHang
                 cmd.ExecuteNonQuery();
             }
         }
+
     }
 }

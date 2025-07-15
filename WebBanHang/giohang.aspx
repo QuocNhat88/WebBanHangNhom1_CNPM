@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="giohang.aspx.cs" Inherits="WebBanHang.giohang" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
-    <style>
+        <style>
         /* ========== GIỎ HÀNG ========== */
 
 
@@ -364,84 +364,84 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="cart-container">
-        <div class="cart-header">
-            <h2><i class="fas fa-shopping-cart"></i>Giỏ hàng của bạn</h2>
-        </div>
+   <div class="cart-container">
+    <div class="cart-header">
+        <h2><i class="fas fa-shopping-cart"></i>Giỏ hàng của bạn</h2>
+    </div>
 
-        <asp:Panel ID="pnlEmptyCart" runat="server" CssClass="empty-cart" Visible="false">
-            <i class="fas fa-shopping-cart"></i>
-            <h3>Giỏ hàng của bạn đang trống</h3>
-            <asp:Button ID="btnMuaHang" runat="server" Text="MUA HÀNG NGAY"
-                PostBackUrl="~/trangchu.aspx" CssClass="btn btn-checkout" />
-        </asp:Panel>
+    <asp:Panel ID="pnlEmptyCart" runat="server" CssClass="empty-cart" Visible="false">
+        <i class="fas fa-shopping-cart"></i>
+        <h3>Giỏ hàng của bạn đang trống</h3>
+        <asp:Button ID="btnMuaHang" runat="server" Text="MUA HÀNG NGAY"
+            PostBackUrl="~/trangchu.aspx" CssClass="btn btn-checkout" />
+    </asp:Panel>
 
-        <asp:GridView ID="gvGioHang" runat="server" AutoGenerateColumns="False" CssClass="cart-table"
-            OnRowCommand="gvGioHang_RowCommand" OnRowDeleting="gvGioHang_RowDeleting" DataKeyNames="ChiTietID">
-            <Columns>
-                <asp:TemplateField HeaderText="Sản phẩm">
-                    <ItemTemplate>
-                        <div class="product-cell">
-                            <img src='<%# "images/" + Eval("AnhDaiDien") %>' class="product-image" />
-                            <asp:HyperLink ID="lnkSanPham" runat="server"
-                                NavigateUrl='<%# "chitietsp.aspx?id=" + Eval("SanPhamID") %>'
-                                CssClass="product-name"
-                                Text='<%# Eval("TenSanPham") %>'></asp:HyperLink>
-                        </div>
-                    </ItemTemplate>
-                </asp:TemplateField>
+    <asp:GridView ID="gvGioHang" runat="server" AutoGenerateColumns="False" CssClass="cart-table"
+        OnRowCommand="gvGioHang_RowCommand" OnRowDeleting="gvGioHang_RowDeleting" DataKeyNames="ChiTietID">
+        <Columns>
+            <asp:TemplateField HeaderText="Sản phẩm">
+                <ItemTemplate>
+                    <div class="product-cell">
+                        <img src='<%# "images/" + Eval("AnhDaiDien") %>' class="product-image" />
+                        <asp:HyperLink ID="lnkSanPham" runat="server"
+                            NavigateUrl='<%# "chitietsp.aspx?id=" + Eval("SanPhamID") %>'
+                            CssClass="product-name"
+                            Text='<%# Eval("TenSanPham") %>'></asp:HyperLink>
+                    </div>
+                </ItemTemplate>
+            </asp:TemplateField>
 
-                <asp:BoundField DataField="DonGia" HeaderText="Đơn giá" DataFormatString="{0:N0} VNĐ"
-                    ItemStyle-CssClass="price" />
+            <asp:BoundField DataField="DonGia" HeaderText="Đơn giá" DataFormatString="{0:N0} VNĐ"
+                ItemStyle-CssClass="price" />
 
-                <asp:TemplateField HeaderText="Số lượng">
-                    <ItemTemplate>
-                        <div class="quantity-control">
-                            <asp:Button ID="btnGiam" runat="server" Text="-" CommandName="Decrease"
-                                CommandArgument='<%# Eval("ChiTietID") %>' CssClass="quantity-btn" />
-                            <asp:TextBox ID="txtSoLuong" runat="server" Text='<%# Eval("SoLuong") %>'
-                                CssClass="quantity-input" ReadOnly="true" TextMode="Number" min="1"
-                                onchange='<%# "updateQuantity(this, " + Eval("ChiTietID") + ")" %>' />
-                            <asp:Button ID="btnTang" runat="server" Text="+" CommandName="Increase"
-                                CommandArgument='<%# Eval("ChiTietID") %>' CssClass="quantity-btn" />
-                        </div>
-                    </ItemTemplate>
-                </asp:TemplateField>
+            <asp:TemplateField HeaderText="Số lượng">
+                <ItemTemplate>
+                    <div class="quantity-control">
+                        <asp:Button ID="btnGiam" runat="server" Text="-" CommandName="Decrease"
+                            CommandArgument='<%# Eval("ChiTietID") %>' CssClass="quantity-btn" />
+                        <asp:TextBox ID="txtSoLuong" runat="server" Text='<%# Eval("SoLuong") %>'
+                            CssClass="quantity-input" ReadOnly="true" TextMode="Number" min="1"
+                            onchange='<%# "updateQuantity(this, " + Eval("ChiTietID") + ")" %>' />
+                        <asp:Button ID="btnTang" runat="server" Text="+" CommandName="Increase"
+                            CommandArgument='<%# Eval("ChiTietID") %>' CssClass="quantity-btn" />
+                    </div>
+                </ItemTemplate>
+            </asp:TemplateField>
 
-                <asp:BoundField DataField="ThanhTien" HeaderText="Thành tiền" DataFormatString="{0:N0} VNĐ"
-                    ItemStyle-CssClass="subtotal" />
+            <asp:BoundField DataField="ThanhTien" HeaderText="Thành tiền" DataFormatString="{0:N0} VNĐ"
+                ItemStyle-CssClass="subtotal" />
 
-                <asp:TemplateField HeaderText="Thao tác">
-                    <ItemTemplate>
-                        <asp:LinkButton ID="btnXoa" runat="server" CommandName="Delete"
-                            CssClass="btn btn-delete" OnClientClick="return confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?');">
-                            <i class="fas fa-trash-alt"></i>
-                        </asp:LinkButton>
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-        </asp:GridView>
+            <asp:TemplateField HeaderText="Thao tác">
+                <ItemTemplate>
+                    <asp:LinkButton ID="btnXoa" runat="server" CommandName="Delete"
+                        CssClass="btn btn-delete" OnClientClick="return confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?');">
+                        <i class="fas fa-trash-alt"></i>
+                    </asp:LinkButton>
+                </ItemTemplate>
+            </asp:TemplateField>
+        </Columns>
+    </asp:GridView>
 
-        <div class="cart-summary">
-            <div class="cart-total">
-                <strong>Tổng cộng: <span>
-                    <asp:Label ID="lblTongTien" runat="server" Text="0"></asp:Label>
-                    VNĐ</span></strong>
-            </div>
-        </div>
-
-        <div class="cart-actions">
-            <asp:Button ID="btnTiepTucMuaHang" runat="server" Text="TIẾP TỤC MUA HÀNG"
-                PostBackUrl="~/trangchu.aspx" CssClass="btn btn-continue" />
-            <asp:Button ID="btnDatHang" runat="server" Text="THANH TOÁN" OnClick="btnDatHang_Click"
-                CssClass="btn btn-checkout" />
+    <div class="cart-summary">
+        <div class="cart-total">
+            <strong>Tổng cộng: <span>
+                <asp:Label ID="lblTongTien" runat="server" Text="0"></asp:Label>
+                VNĐ</span></strong>
         </div>
     </div>
 
-    <script type="text/javascript">
-        function updateQuantity(input, chiTietID) {
-            // Gửi yêu cầu cập nhật số lượng khi người dùng thay đổi giá trị trực tiếp trong ô input
-            __doPostBack('UpdateQuantity', chiTietID + '|' + input.value);
-        }
-    </script>
+    <div class="cart-actions">
+        <asp:Button ID="btnTiepTucMuaHang" runat="server" Text="TIẾP TỤC MUA HÀNG"
+            PostBackUrl="~/trangchu.aspx" CssClass="btn btn-continue" />
+        <asp:Button ID="btnDatHang" runat="server" Text="THANH TOÁN" OnClick="btnDatHang_Click"
+            CssClass="btn btn-checkout" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    function updateQuantity(input, chiTietID) {
+        // Gửi yêu cầu cập nhật số lượng khi người dùng thay đổi giá trị trực tiếp trong ô input
+        __doPostBack('UpdateQuantity', chiTietID + '|' + input.value);
+    }
+</script>
 </asp:Content>
