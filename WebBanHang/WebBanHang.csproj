@@ -73,6 +73,7 @@
   <ItemGroup>
     <Content Include="admin\qlsanpham.aspx" />
     <Content Include="chitietsp.aspx" />
+    <Content Include="css\admin-style.css" />
     <Content Include="css\style.css" />
     <Content Include="dangky.aspx" />
     <Content Include="dangnhap.aspx" />
@@ -218,6 +219,8 @@
     <Content Include="laptop.aspx" />
     <Content Include="lienhe.aspx" />
     <Content Include="phukien.aspx" />
+    <Content Include="qlkm.aspx" />
+    <Content Include="qlsp.aspx" />
     <Content Include="thanhtoan.aspx" />
     <Content Include="TraLoiLienHe.aspx" />
     <Content Include="trangchu.aspx" />
@@ -299,12 +302,33 @@
       <DependentUpon>phukien.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="qlkm.aspx.cs">
+      <DependentUpon>qlkm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="qlkm.aspx.designer.cs">
+      <DependentUpon>qlkm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="qlsp.aspx.cs">
+      <DependentUpon>qlsp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="qlsp.aspx.designer.cs">
+      <DependentUpon>qlsp.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Site1.Master.designer.cs">
       <DependentUpon>Site1.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Site3.Master.cs">
+      <DependentUpon>Site3.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site3.Master.designer.cs">
+      <DependentUpon>Site3.Master</DependentUpon>
     </Compile>
     <Compile Include="thanhtoan.aspx.cs">
       <DependentUpon>thanhtoan.aspx</DependentUpon>
@@ -332,6 +356,7 @@
     <Content Include="Site1.Master" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\nvqn1 - Web Deploy.pubxml" />
+    <Content Include="Site3.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
