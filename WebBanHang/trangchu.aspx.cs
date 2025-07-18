@@ -18,9 +18,9 @@ namespace WebBanHang
         {
             if (!IsPostBack)
             {
-                LoadDanhMuc();
+                //LoadDanhMuc();
                 LoadSanPhamTheoDanhMuc();
-                
+
                 LoadSanPhamGiamGia();
                 LoadSanPhamNoiBat1();
 
@@ -62,18 +62,21 @@ namespace WebBanHang
             string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = @"SELECT s.*, d.TenDanhMuc 
-                FROM SanPham s 
-                LEFT JOIN DanhMuc d ON s.DanhMucID = d.DanhMucID
-                WHERE (@DanhMucID = 0 OR @DanhMucID IS NULL OR s.DanhMucID = @DanhMucID)
-                ORDER BY s.NgayTao DESC
-                OFFSET 0 ROWS FETCH NEXT 12 ROWS ONLY";
-                //string query = @"
-                //SELECT TOP 6 s.*, d.TenDanhMuc 
+                //string query = @"SELECT s.*, d.TenDanhMuc 
                 //FROM SanPham s 
                 //LEFT JOIN DanhMuc d ON s.DanhMucID = d.DanhMucID
                 //WHERE (@DanhMucID = 0 OR @DanhMucID IS NULL OR s.DanhMucID = @DanhMucID)
-                //ORDER BY s.NgayTao DESC";
+                //ORDER BY s.NgayTao DESC
+                //OFFSET 0 ROWS FETCH NEXT 12 ROWS ONLY";
+
+                string query = @"
+                SELECT s.*, d.TenDanhMuc 
+                FROM SanPham s 
+                LEFT JOIN DanhMuc d ON s.DanhMucID = d.DanhMucID
+                WHERE (s.IsDeleted = 0) AND (@DanhMucID = 0 OR @DanhMucID IS NULL OR s.DanhMucID = @DanhMucID)
+                ORDER BY s.NgayTao DESC
+                OFFSET 0 ROWS FETCH NEXT 12 ROWS ONLY";
+
 
 
                 SqlCommand cmd = new SqlCommand(query, conn);
@@ -217,7 +220,7 @@ namespace WebBanHang
         private void LoadSanPhamNoiBat1()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
-            string query = "SELECT TOP 8 * FROM SanPham WHERE NoiBat = 1 ORDER BY NgayTao DESC";
+            string query = "SELECT TOP 8 * FROM SanPham WHERE   NoiBat = 1 ORDER BY NgayTao DESC";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
