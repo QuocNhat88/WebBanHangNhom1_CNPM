@@ -11,61 +11,70 @@ namespace WebBanHang
 {
 
 
-    public partial class QlyPhanHoi
+    public partial class qlsp
     {
 
         /// <summary>
-        /// gvPhanHoi control.
+        /// txtTenSanPham control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvPhanHoi;
+        protected global::System.Web.UI.WebControls.TextBox txtTenSanPham;
 
         /// <summary>
-        /// pnlTraLoi control.
+        /// txtGia control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlTraLoi;
+        protected global::System.Web.UI.WebControls.TextBox txtGia;
 
         /// <summary>
-        /// lblEmailTraLoi control.
+        /// txtSoLuong control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEmailTraLoi;
+        protected global::System.Web.UI.WebControls.TextBox txtSoLuong;
 
         /// <summary>
-        /// lblHoTenTraLoi control.
+        /// ddlKhuyenMai control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblHoTenTraLoi;
+        protected global::System.Web.UI.WebControls.DropDownList ddlKhuyenMai;
 
         /// <summary>
-        /// txtNoiDungTraLoi control.
+        /// btnThem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNoiDungTraLoi;
+        protected global::System.Web.UI.WebControls.Button btnThem;
 
         /// <summary>
-        /// btnGuiPhanHoi control.
+        /// gvSanPham control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuiPhanHoi;
+        protected global::System.Web.UI.WebControls.GridView gvSanPham;
+
+        /// <summary>
+        /// btnHuyCapNhat control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnHuyCapNhat;
     }
 }

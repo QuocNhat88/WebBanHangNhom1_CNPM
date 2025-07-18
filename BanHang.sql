@@ -327,6 +327,21 @@ WHERE SanPhamID IN( 29,55) ;
 
 select * from sanpham
 
+---
+-- Bước 18: Tạo bảng PhanHoiAdmin để lưu trữ phản hồi từ Admin
+CREATE TABLE PhanHoiAdmin (
+    PhanHoiAdminID INT PRIMARY KEY IDENTITY(1,1),
+    LienHeID INT FOREIGN KEY REFERENCES LienHe(LienHeID),
+    NoiDungPhanHoi NVARCHAR(MAX) NOT NULL,
+    NgayPhanHoi DATETIME DEFAULT GETDATE(),
+    -- Có thể thêm AdminID nếu có bảng quản lý Admin
+    -- AdminID INT FOREIGN KEY REFERENCES Admin(AdminID)
+);
+ALTER TABLE LienHe
+ADD KhachHangID INT;
 
+ALTER TABLE LienHe
+ADD CONSTRAINT FK_LienHe_KhachHang
+FOREIGN KEY (KhachHangID) REFERENCES KhachHang(KhachHangID);
 
 

@@ -53,6 +53,7 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -73,11 +74,14 @@
   <ItemGroup>
     <Content Include="admin\qlsanpham.aspx" />
     <Content Include="BaoTest.aspx" />
+    <Content Include="BaoCaoDoanhThu.aspx" />
     <Content Include="chitietsp.aspx" />
+    <Content Include="css\admin-style.css" />
     <Content Include="css\style.css" />
     <Content Include="dangky.aspx" />
     <Content Include="dangnhap.aspx" />
     <Content Include="dienthoai.aspx" />
+    <Content Include="GiamGiaNV.aspx" />
     <Content Include="giohang.aspx" />
     <Content Include="Global.asax" />
     <Content Include="hoantat.aspx" />
@@ -221,9 +225,12 @@
     <Content Include="phukien.aspx" />
     <Content Include="QliSanPham.aspx" />
     <Content Include="QlyPhanHoi.aspx" />
+    <Content Include="qlkm.aspx" />
+    <Content Include="qlsp.aspx" />
     <Content Include="thanhtoan.aspx" />
     <Content Include="Theogioidonhang.aspx" />
     <Content Include="timkiem.aspx" />
+    <Content Include="TraLoiLienHe.aspx" />
     <Content Include="trangchu.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -241,6 +248,13 @@
     </Compile>
     <Compile Include="BaoTest.aspx.designer.cs">
       <DependentUpon>BaoTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaoCaoDoanhThu.aspx.cs">
+      <DependentUpon>BaoCaoDoanhThu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaoCaoDoanhThu.aspx.designer.cs">
+      <DependentUpon>BaoCaoDoanhThu.aspx</DependentUpon>
     </Compile>
     <Compile Include="chitietsp.aspx.cs">
       <DependentUpon>chitietsp.aspx</DependentUpon>
@@ -269,6 +283,13 @@
     </Compile>
     <Compile Include="dienthoai.aspx.designer.cs">
       <DependentUpon>dienthoai.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GiamGiaNV.aspx.cs">
+      <DependentUpon>GiamGiaNV.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GiamGiaNV.aspx.designer.cs">
+      <DependentUpon>GiamGiaNV.aspx</DependentUpon>
     </Compile>
     <Compile Include="giohang.aspx.cs">
       <DependentUpon>giohang.aspx</DependentUpon>
@@ -321,8 +342,19 @@
       <DependentUpon>QlyPhanHoi.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="QlyPhanHoi.aspx.designer.cs">
-      <DependentUpon>QlyPhanHoi.aspx</DependentUpon>
+    <Compile Include="qlkm.aspx.cs">
+      <DependentUpon>qlkm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="qlkm.aspx.designer.cs">
+      <DependentUpon>qlkm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="qlsp.aspx.cs">
+      <DependentUpon>qlsp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="qlsp.aspx.designer.cs">
+      <DependentUpon>qlsp.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>
@@ -330,6 +362,13 @@
     </Compile>
     <Compile Include="Site1.Master.designer.cs">
       <DependentUpon>Site1.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Site3.Master.cs">
+      <DependentUpon>Site3.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site3.Master.designer.cs">
+      <DependentUpon>Site3.Master</DependentUpon>
     </Compile>
     <Compile Include="thanhtoan.aspx.cs">
       <DependentUpon>thanhtoan.aspx</DependentUpon>
@@ -352,6 +391,13 @@
     <Compile Include="timkiem.aspx.designer.cs">
       <DependentUpon>timkiem.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TraLoiLienHe.aspx.cs">
+      <DependentUpon>TraLoiLienHe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TraLoiLienHe.aspx.designer.cs">
+      <DependentUpon>TraLoiLienHe.aspx</DependentUpon>
+    </Compile>
     <Compile Include="trangchu.aspx.cs">
       <DependentUpon>trangchu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -364,6 +410,7 @@
     <Content Include="Site1.Master" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\nvqn1 - Web Deploy.pubxml" />
+    <Content Include="Site3.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -403,18 +450,11 @@
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
   </Target>
   <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-</Project>
+  </Project>

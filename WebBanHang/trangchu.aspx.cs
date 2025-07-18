@@ -12,36 +12,27 @@ namespace WebBanHang
     public partial class trangchu : System.Web.UI.Page
     {
 
-
-        
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                //LoadDanhMuc();
+                //LoadDanhMuc(); // Phương thức này không còn được dùng trực tiếp ở đây, đã bị chú thích lại
                 LoadSanPhamTheoDanhMuc();
-
                 LoadSanPhamGiamGia();
                 LoadSanPhamNoiBat1();
-
-               
-                
             }
         }
 
-       
-
-        
+        // Phương thức LoadDanhMuc đã bị chú thích (hoặc không dùng) như trong code bạn gửi,
+        // nhưng tôi vẫn giữ lại để minh họa nếu bạn cần kích hoạt lại nó.
         private void LoadDanhMuc()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT DanhMucID, TenDanhMuc FROM DanhMuc";
-              
                 SqlCommand cmd = new SqlCommand(query, conn);
-                //SqlDataAdapter da = new SqlDataAdapter(cmd);
-                cmd.CommandTimeout = 60;  // tăng lên 60 giây, hoặc giá trị bạn cần
+                cmd.CommandTimeout = 60;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -52,49 +43,49 @@ namespace WebBanHang
                 allRow["TenDanhMuc"] = "Một số sản phẩm";
                 dt.Rows.InsertAt(allRow, 0);
 
+                // Nếu bạn có một Repeater hoặc control nào đó để hiển thị danh mục,
+                // thì hãy bỏ chú thích các dòng dưới đây và đặt tên control phù hợp.
                 //dlDanhMuc.DataSource = dt;
                 //dlDanhMuc.DataBind();
             }
         }
-       
+
         private void LoadSanPhamTheoDanhMuc()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                //string query = @"SELECT s.*, d.TenDanhMuc 
-                //FROM SanPham s 
-                //LEFT JOIN DanhMuc d ON s.DanhMucID = d.DanhMucID
-                //WHERE (@DanhMucID = 0 OR @DanhMucID IS NULL OR s.DanhMucID = @DanhMucID)
-                //ORDER BY s.NgayTao DESC
-                //OFFSET 0 ROWS FETCH NEXT 12 ROWS ONLY";
-
+                // Đây là phần đã được hợp nhất từ hai phiên bản của bạn.
+                // Nó tính toán cả giá sau giảm và có điều kiện IsDeleted = 0.
                 string query = @"
-                SELECT s.*, d.TenDanhMuc 
-                FROM SanPham s 
+                SELECT
+                    s.SanPhamID,
+                    s.TenSanPham,
+                    s.AnhDaiDien,
+                    s.Gia AS GiaGoc,
+                    ISNULL(km.PhanTramGiam, 0) AS PhanTramGiam,
+                    CASE
+                        WHEN km.PhanTramGiam IS NOT NULL THEN
+                            s.Gia - (s.Gia * km.PhanTramGiam / 100.0)
+                        ELSE s.Gia
+                    END AS GiaSauGiam,
+                    d.TenDanhMuc
+                FROM SanPham s
                 LEFT JOIN DanhMuc d ON s.DanhMucID = d.DanhMucID
+                LEFT JOIN KhuyenMai km ON s.KhuyenMaiID = km.KhuyenMaiID
                 WHERE (s.IsDeleted = 0) AND (@DanhMucID = 0 OR @DanhMucID IS NULL OR s.DanhMucID = @DanhMucID)
                 ORDER BY s.NgayTao DESC
                 OFFSET 0 ROWS FETCH NEXT 12 ROWS ONLY";
-
-
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
                 if (Request.QueryString["DanhMucID"] != null && int.TryParse(Request.QueryString["DanhMucID"], out int danhMucID))
                 {
                     cmd.Parameters.AddWithValue("@DanhMucID", danhMucID);
-                    //litDanhMuc.Text = GetTenDanhMuc(danhMucID);
-
-                    // Hiển thị nút "Xem tất cả" và thiết lập đường dẫn tương ứng
-                    //hlXemTatCa.Visible = true;
-                    //hlXemTatCa.NavigateUrl = GetCategoryPageUrl(danhMucID);
                 }
                 else
                 {
                     cmd.Parameters.AddWithValue("@DanhMucID", 0);
-                    //litDanhMuc.Text = "Tất cả sản phẩm";
-                    //hlXemTatCa.Visible = false;
                 }
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -126,6 +117,7 @@ namespace WebBanHang
                     return $"xemtatca.aspx?DanhMucID={danhMucID}"; // Fallback nếu không có trang riêng
             }
         }
+
         protected void LinkButton1_Click(object sender, EventArgs e)
         {
             LinkButton btn = (LinkButton)sender;
@@ -180,17 +172,28 @@ namespace WebBanHang
             return "category-link";
         }
 
-        
 
-
-        
         private void LoadSanPhamGiamGia()
         {
-            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
-            string query = @"SELECT TOP 10 * FROM SanPham 
-                    WHERE GiamGia = 1 
-                    AND GETDATE() BETWEEN ISNULL(NgayBatDauGiamGia, GETDATE()) AND ISNULL(NgayKetThucGiamGia, GETDATE())
-                    ORDER BY (GiaGoc - Gia) DESC"; // Giảm nhiều nhất đầu tiên
+            string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
+            string query = @"
+SELECT TOP 10
+    s.SanPhamID,
+    s.TenSanPham,
+    s.AnhDaiDien,
+    s.Gia AS GiaGoc,
+    ISNULL(km.PhanTramGiam, 0) AS PhanTramGiam,
+    CASE
+        WHEN km.PhanTramGiam IS NOT NULL THEN
+            s.Gia - (s.Gia * km.PhanTramGiam / 100.0)
+        ELSE s.Gia
+    END AS GiaSauGiam,
+    km.NgayKetThuc AS NgayKetThucGiamGia -- ✅ Đặt alias trùng tên Eval
+FROM SanPham s
+INNER JOIN KhuyenMai km ON s.KhuyenMaiID = km.KhuyenMaiID
+WHERE GETDATE() BETWEEN km.NgayBatDau AND km.NgayKetThuc
+ORDER BY km.PhanTramGiam DESC";
+
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -202,6 +205,7 @@ namespace WebBanHang
                 rptSanPhamGiamGia.DataBind();
             }
         }
+
         protected string GetRemainingTime(object endDateObj)
         {
             if (endDateObj == null || endDateObj == DBNull.Value)
@@ -217,10 +221,29 @@ namespace WebBanHang
             else
                 return $"{(int)remaining.TotalMinutes} phút";
         }
+
         private void LoadSanPhamNoiBat1()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
-            string query = "SELECT TOP 8 * FROM SanPham WHERE   NoiBat = 1 ORDER BY NgayTao DESC";
+            // Đây là phần đã được hợp nhất từ hai phiên bản của bạn.
+            // Nó tính toán cả giá sau giảm.
+            string query = @"
+SELECT TOP 8
+    s.SanPhamID,
+    s.TenSanPham,
+    s.AnhDaiDien,
+    s.Gia AS GiaGoc,
+    ISNULL(km.PhanTramGiam, 0) AS PhanTramGiam,
+    CASE
+        WHEN km.PhanTramGiam IS NOT NULL THEN
+            s.Gia - (s.Gia * km.PhanTramGiam / 100.0)
+        ELSE s.Gia
+    END AS GiaSauGiam
+FROM SanPham s
+LEFT JOIN KhuyenMai km ON s.KhuyenMaiID = km.KhuyenMaiID
+WHERE s.NoiBat = 1
+ORDER BY s.NgayTao DESC";
+
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -241,8 +264,6 @@ namespace WebBanHang
             }
         }
 
-
-
         protected void btnThemVaoGio_Click(object sender, EventArgs e)
         {
             if (Session["KhachHangID"] == null)
@@ -252,7 +273,6 @@ namespace WebBanHang
             }
 
             int sanPhamID = Convert.ToInt32(((System.Web.UI.WebControls.Button)sender).CommandArgument);
-            //int sanPhamID = Convert.ToInt32(((Button)sender).CommandArgument);
 
             int khachHangID = Convert.ToInt32(Session["KhachHangID"]);
 
@@ -278,17 +298,17 @@ namespace WebBanHang
                 // Thêm sản phẩm vào giỏ hàng
                 string addQuery = @"IF EXISTS (SELECT 1 FROM ChiTietDonHang WHERE DonHangID = @DonHangID AND SanPhamID = @SanPhamID)
                                     UPDATE ChiTietDonHang SET SoLuong = SoLuong + 1 WHERE DonHangID = @DonHangID AND SanPhamID = @SanPhamID
-                                   ELSE
+                                    ELSE
                                     INSERT INTO ChiTietDonHang (DonHangID, SanPhamID, SoLuong, DonGia, ThanhTien)
                                     SELECT @DonHangID, @SanPhamID, 1, Gia, Gia FROM SanPham WHERE SanPhamID = @SanPhamID";
                 SqlCommand addCmd = new SqlCommand(addQuery, conn);
                 addCmd.Parameters.AddWithValue("@DonHangID", donHangID);
                 addCmd.Parameters.AddWithValue("@SanPhamID", sanPhamID);
-                
+
 
                 addCmd.ExecuteNonQuery();
             }
-        
+
             Response.Redirect("giohang.aspx");
         }
 
@@ -302,7 +322,23 @@ namespace WebBanHang
 
         protected void Repeater2_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
+            // Phương thức này hiện trống, nếu có logic nào đó cần thêm vào thì bạn có thể làm sau
+        }
 
+        public static string HienThiGia(object giaGoc, object giaSauGiam, object phanTramGiam)
+        {
+            decimal goc = Convert.ToDecimal(giaGoc);
+            decimal giam = Convert.ToDecimal(giaSauGiam);
+            int phanTram = Convert.ToInt32(phanTramGiam);
+
+            if (phanTram > 0 && giam < goc)
+            {
+                return $"<span class='gia-goc'>{goc:N0}đ</span> <span class='gia-giam'>{giam:N0}đ</span> <span class='phan-tram-giam'>-{phanTram}%</span>";
+            }
+            else
+            {
+                return $"<span class='gia'>{goc:N0}đ</span>";
+            }
         }
     }
 }
