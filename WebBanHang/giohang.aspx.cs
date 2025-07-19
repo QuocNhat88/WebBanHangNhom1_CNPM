@@ -235,7 +235,5 @@ namespace WebBanHang
                 cmd.ExecuteNonQuery();
             }
         }
-
-       
     }
 }
