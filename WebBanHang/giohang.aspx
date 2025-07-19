@@ -432,7 +432,7 @@
 
         <div class="cart-actions">
             <asp:Button ID="btnTiepTucMuaHang" runat="server" Text="TIẾP TỤC MUA HÀNG"
-                PostBackUrl="~/trangchu.aspx" CssClass="btn btn-continue" />
+                PostBackUrl="~/trangchu.aspx" CssClass="btn btn-continue"  />
             <asp:Button ID="btnDatHang" runat="server" Text="THANH TOÁN" OnClick="btnDatHang_Click"
                 CssClass="btn btn-checkout" />
         </div>

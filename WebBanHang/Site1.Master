@@ -21,7 +21,7 @@
                 </div>
                 <div class="search">
                     <asp:TextBox ID="txtTimKiem" runat="server" placeholder="Tìm kiếm sản phẩm..."></asp:TextBox>
-                    <asp:Button ID="btnTimKiem" runat="server" Text="Tìm" CssClass="search-button" />
+                    <asp:Button ID="btnTimKiem" runat="server" Text="Tìm" CssClass="search-button" OnClick="btnTimKiem_Click" />
                 </div>
                 <div class="user-menu">
                     <a href="giohang.aspx" class="cart-link" runat="server">
@@ -49,36 +49,7 @@
                 </div>
             </header>
 
-            <!-- Menu chính với icon -->
-            <%-- <nav>
-                <ul>
-                    <li>
-                        <asp:HyperLink runat="server" NavigateUrl="~/trangchu.aspx">
-                            <i class="fas fa-home"></i> Trang chủ
-                        </asp:HyperLink>
-                    </li>
-                    <li>
-                        <asp:HyperLink runat="server" NavigateUrl="~/dienthoai.aspx">
-                            <i class="fas fa-mobile-alt"></i> Điện thoại
-                        </asp:HyperLink>
-                    </li>
-                    <li>
-                        <asp:HyperLink runat="server" NavigateUrl="~/laptop.aspx">
-                            <i class="fas fa-laptop"></i> 
-                        </asp:HyperLink>
-                    </li>
-                    <li>
-                        <asp:HyperLink runat="server" NavigateUrl="~/phukien.aspx">
-                            <i class="fas fa-headphones"></i> Phụ kiện
-                        </asp:HyperLink>
-                    </li>
-                    <li>
-                        <asp:HyperLink runat="server" NavigateUrl="~/lienhe.aspx">
-                            <i class="fas fa-envelope"></i> Liên hệ
-                        </asp:HyperLink>
-                    </li>
-                </ul>
-            </nav>--%>
+            
             <nav class="brand-menu">
 
                 <div class="brand-grid">
@@ -91,24 +62,24 @@
                         Style="color: aqua;">
      <i class="fas fa-envelope"></i> Liên hệ
                     </asp:HyperLink>
-                    <a href="#">
+                    <a href="apple.aspx">
                         <img src="/images/logoapple.png" alt="Apple" /></a>
-                    <a href="#">
+                    <a href="samsung.aspx">
                         <img src="/images/logosamsung1.png" alt="Samsung" /></a>
 
-                    <a href="#">
+                    <a href="xiaomi.aspx">
                         <img src="/images/logoxiaomi.png" alt="Xiaomi" /></a>
-                    <a href="#">
+                    <a href="nokia.aspx">
                         <img src="/images/nokia.png" alt="Nokia" /></a>
 
-                    <a href="#">
+                    <a href="oppo.aspx">
                         <img src="/images/oppo.png" alt="Oppo" /></a>
-                    <a href="#">
+                    <a href="realme.aspx">
                         <img src="/images/realme.png" alt="Realme" /></a>
 
-                    <a href="#">
+                    <a href="vivo.aspx">
                         <img src="/images/vivo.png" alt="Vivo" /></a>
-                    <a href="#">
+                    <a href="sony.aspx">
                         <img src="/images/sony1.png" alt="Sony" /></a>
                 </div>
             </nav>

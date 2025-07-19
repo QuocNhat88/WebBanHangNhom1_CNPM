@@ -30,5 +30,14 @@ namespace WebBanHang
                 return Session["CartCount"].ToString();
             return "0";
         }
+
+        protected void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string searchTerm = txtTimKiem.Text.Trim();
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                Response.Redirect($"timkiem.aspx?search={Server.UrlEncode(searchTerm)}");
+            }
+        }
     }
 }

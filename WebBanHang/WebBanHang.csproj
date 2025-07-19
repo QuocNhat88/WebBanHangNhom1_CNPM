@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin\qlsanpham.aspx" />
+    <Content Include="apple.aspx" />
     <Content Include="BaoCaoDoanhThu.aspx" />
     <Content Include="chitietsp.aspx" />
     <Content Include="css\admin-style.css" />
@@ -83,6 +84,7 @@
     <Content Include="GiamGiaNV.aspx" />
     <Content Include="giohang.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="hoantat.aspx" />
     <Content Include="images\acer_aspire_vero.jpg" />
     <Content Include="images\acer_nitro_5.jpg" />
     <Content Include="images\acer_predator_helios.jpg" />
@@ -220,15 +222,26 @@
     <Content Include="images\zenbook14.jpg" />
     <Content Include="laptop.aspx" />
     <Content Include="lienhe.aspx" />
-    <Content Include="phukien.aspx" />
-    <Content Include="QLThue.aspx" />
-    <Content Include="QlyPhanHoi.aspx" />
+    <Content Include="nokia.aspx" />
+    <Content Include="oppo.aspx" />
+    <Content Include="phukien.aspx" /
+=======
+    <Content Include="QliSanPham.aspx" />
+>>>>>>> Bao2
     <Content Include="qlkm.aspx" />
     <Content Include="qlsp.aspx" />
+    <Content Include="quanlidonhang.aspx" />
+    <Content Include="realme.aspx" />
+    <Content Include="samsung.aspx" />
+    <Content Include="sony.aspx" />
     <Content Include="thanhtoan.aspx" />
+    <Content Include="Theogioidonhang.aspx" />
+    <Content Include="timkiem.aspx" />
     <Content Include="TraLoiLienHe.aspx" />
     <Content Include="trangchu.aspx" />
+    <Content Include="vivo.aspx" />
     <Content Include="Web.config" />
+    <Content Include="xiaomi.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="admin\qlsanpham.aspx.cs">
@@ -237,6 +250,13 @@
     </Compile>
     <Compile Include="admin\qlsanpham.aspx.designer.cs">
       <DependentUpon>qlsanpham.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="apple.aspx.cs">
+      <DependentUpon>apple.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="apple.aspx.designer.cs">
+      <DependentUpon>apple.aspx</DependentUpon>
     </Compile>
     <Compile Include="BaoCaoDoanhThu.aspx.cs">
       <DependentUpon>BaoCaoDoanhThu.aspx</DependentUpon>
@@ -290,6 +310,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="hoantat.aspx.cs">
+      <DependentUpon>hoantat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="hoantat.aspx.designer.cs">
+      <DependentUpon>hoantat.aspx</DependentUpon>
+    </Compile>
     <Compile Include="laptop.aspx.cs">
       <DependentUpon>laptop.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -305,6 +332,20 @@
       <DependentUpon>lienhe.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs" />
+    <Compile Include="nokia.aspx.cs">
+      <DependentUpon>nokia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="nokia.aspx.designer.cs">
+      <DependentUpon>nokia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="oppo.aspx.cs">
+      <DependentUpon>oppo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="oppo.aspx.designer.cs">
+      <DependentUpon>oppo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="phukien.aspx.cs">
       <DependentUpon>phukien.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -313,6 +354,7 @@
       <DependentUpon>phukien.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
     <Compile Include="QLThue.aspx.cs">
       <DependentUpon>QLThue.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -323,6 +365,15 @@
     <Compile Include="QlyPhanHoi.aspx.cs">
       <DependentUpon>QlyPhanHoi.aspx</DependentUpon>
 	</Compile>
+=======
+    <Compile Include="QliSanPham.aspx.cs">
+      <DependentUpon>QliSanPham.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="QliSanPham.aspx.designer.cs">
+      <DependentUpon>QliSanPham.aspx</DependentUpon>
+    </Compile>
+>>>>>>> Bao2
     <Compile Include="qlkm.aspx.cs">
       <DependentUpon>qlkm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -336,6 +387,27 @@
     </Compile>
     <Compile Include="qlsp.aspx.designer.cs">
       <DependentUpon>qlsp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="quanlidonhang.aspx.cs">
+      <DependentUpon>quanlidonhang.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="quanlidonhang.aspx.designer.cs">
+      <DependentUpon>quanlidonhang.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="realme.aspx.cs">
+      <DependentUpon>realme.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="realme.aspx.designer.cs">
+      <DependentUpon>realme.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="samsung.aspx.cs">
+      <DependentUpon>samsung.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="samsung.aspx.designer.cs">
+      <DependentUpon>samsung.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>
@@ -351,6 +423,13 @@
     <Compile Include="Site3.Master.designer.cs">
       <DependentUpon>Site3.Master</DependentUpon>
     </Compile>
+    <Compile Include="sony.aspx.cs">
+      <DependentUpon>sony.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sony.aspx.designer.cs">
+      <DependentUpon>sony.aspx</DependentUpon>
+    </Compile>
     <Compile Include="thanhtoan.aspx.cs">
       <DependentUpon>thanhtoan.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -358,11 +437,26 @@
     <Compile Include="thanhtoan.aspx.designer.cs">
       <DependentUpon>thanhtoan.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Theogioidonhang.aspx.cs">
+      <DependentUpon>Theogioidonhang.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Theogioidonhang.aspx.designer.cs">
+      <DependentUpon>Theogioidonhang.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="timkiem.aspx.cs">
+      <DependentUpon>timkiem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="timkiem.aspx.designer.cs">
+      <DependentUpon>timkiem.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TraLoiLienHe.aspx.cs">
       <DependentUpon>TraLoiLienHe.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="TraLoiLienHe.aspx.designer.cs">
+    <Compilnotepad WebBanHang/WebBanHang.csproj
+e Include="TraLoiLienHe.aspx.designer.cs">
       <DependentUpon>TraLoiLienHe.aspx</DependentUpon>
     </Compile>
     <Compile Include="trangchu.aspx.cs">
@@ -371,6 +465,20 @@
     </Compile>
     <Compile Include="trangchu.aspx.designer.cs">
       <DependentUpon>trangchu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vivo.aspx.cs">
+      <DependentUpon>vivo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vivo.aspx.designer.cs">
+      <DependentUpon>vivo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="xiaomi.aspx.cs">
+      <DependentUpon>xiaomi.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="xiaomi.aspx.designer.cs">
+      <DependentUpon>xiaomi.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

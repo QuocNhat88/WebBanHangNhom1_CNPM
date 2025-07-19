@@ -642,6 +642,100 @@
                 .anhduoicung img:hover {
                     transform: scale(1.05); /* Phóng to nhẹ khi di chuột qua */
                 }
+                /*--------------------------------------------------------------------*/
+                .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.page-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h2 i {
+    color: #f39c12;
+    margin-right: 8px;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.product-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+}
+
+.product-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+
+.product-item h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.price-container {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #000;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.btn-buy-now,
+.btn-add-to-cart {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-buy-now {
+    background-color: #ff5722;
+    color: white;
+}
+
+.btn-add-to-cart {
+    background-color: #007bff;
+    color: white;
+}
+.price-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.discount-badge {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
     </style>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
@@ -683,7 +777,46 @@
 
     <div class="container">
         <div class="page-layout">
-            <div>
+
+         <div>
+    <h2><i class="fas fa-star"></i>Gợi ý một số sản phẩm</h2>
+    <div class="product-list">
+        <asp:Repeater ID="Repeater2" runat="server" OnItemCommand="Repeater2_ItemCommand">
+            <ItemTemplate>
+                <div class="product-item">
+                    <a href='chitietsp.aspx?id=<%# Eval("SanPhamID") %>'>
+                        <img src='<%# Eval("AnhDaiDien", "~/images/{0}") %>' alt='<%# Eval("TenSanPham") %>' />
+                        <h3><%# Eval("TenSanPham") %></h3>
+
+                        <div class="price-container">
+                            <div class="original-price" style="text-decoration: line-through; color: #999;padding-left: 0px;">
+                                <%# Eval("GiaGoc", "{0:N0}") %> VNĐ
+                            </div>
+                            <div class="price" style="font-weight: bold; color: #e74c3c;padding-left: 0px;">
+                                <%# Eval("GiaSauGiam", "{0:N0}") %> VNĐ
+                            </div>
+                            <div class="discount-badge" style="background: red; color: white; display: inline-block; padding: 2px 6px; border-radius: 4px; margin-top: 5px;">
+                                -<%# Math.Round(
+                                    (Convert.ToDecimal(Eval("GiaGoc")) - Convert.ToDecimal(Eval("GiaSauGiam"))) 
+                                    / Convert.ToDecimal(Eval("GiaGoc")) * 100
+                                ) %>%
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="button-group" style="justify-content: center;">
+                        <asp:Button ID="btnMuaNgay" runat="server" Text="Mua ngay"
+                            CommandArgument='<%# Eval("SanPhamID") %>' OnClick="btnMuaNgay_Click" CssClass="btn-buy-now" />
+                        <asp:Button ID="btnThemVaoGio" runat="server" Text="Thêm vào giỏ"
+                            CommandArgument='<%# Eval("SanPhamID") %>' OnClick="btnThemVaoGio_Click" CssClass="btn-add-to-cart" />
+                    </div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
+    </div>
+</div>
+
+            <%--<div>
                 <h2><i class="fas fa-star"></i>Gợi ý một số sản phẩm</h2>
                 <div class="product-list">
 
@@ -708,11 +841,11 @@
                         </ItemTemplate>
                     </asp:Repeater>
                 </div>
-            </div>
+            </div>--%>
         </div>
 
     </div>
-    </div>
+    
 
     <div style="background: #2c3e50; display: flex; justify-content: center; align-items: center; border-radius: 20px">
         <div class="product-sale-section">
