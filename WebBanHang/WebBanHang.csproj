@@ -322,6 +322,7 @@
     </Compile>
     <Compile Include="QlyPhanHoi.aspx.cs">
       <DependentUpon>QlyPhanHoi.aspx</DependentUpon>
+	</Compile>
     <Compile Include="qlkm.aspx.cs">
       <DependentUpon>qlkm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
