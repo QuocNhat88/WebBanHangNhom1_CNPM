@@ -414,10 +414,11 @@ WHERE NgayDat BETWEEN '2025-07-17' AND '2025-07-18'
 
 
 
+ALTER TABLE LienHe
+ADD KhachHangID INT;
 
-
-
-
-
+ALTER TABLE LienHe
+ADD CONSTRAINT FK_LienHe_KhachHang
+FOREIGN KEY (KhachHangID) REFERENCES KhachHang(KhachHangID);
 
 

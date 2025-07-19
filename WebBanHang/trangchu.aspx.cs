@@ -56,42 +56,41 @@ namespace WebBanHang
                 //dlDanhMuc.DataBind();
             }
         }
-       
+
         private void LoadSanPhamTheoDanhMuc()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = @"SELECT s.*, d.TenDanhMuc 
-                FROM SanPham s 
-                LEFT JOIN DanhMuc d ON s.DanhMucID = d.DanhMucID
-                WHERE (@DanhMucID = 0 OR @DanhMucID IS NULL OR s.DanhMucID = @DanhMucID)
-                ORDER BY s.NgayTao DESC
-                OFFSET 0 ROWS FETCH NEXT 12 ROWS ONLY";
-                //string query = @"
-                //SELECT TOP 6 s.*, d.TenDanhMuc 
-                //FROM SanPham s 
-                //LEFT JOIN DanhMuc d ON s.DanhMucID = d.DanhMucID
-                //WHERE (@DanhMucID = 0 OR @DanhMucID IS NULL OR s.DanhMucID = @DanhMucID)
-                //ORDER BY s.NgayTao DESC";
-
+                string query = @"
+            SELECT 
+                s.SanPhamID,
+                s.TenSanPham,
+                s.AnhDaiDien,
+                s.Gia AS GiaGoc,
+                ISNULL(km.PhanTramGiam, 0) AS PhanTramGiam,
+                CASE 
+                    WHEN km.PhanTramGiam IS NOT NULL THEN 
+                        s.Gia - (s.Gia * km.PhanTramGiam / 100.0)
+                    ELSE s.Gia 
+                END AS GiaSauGiam,
+                d.TenDanhMuc
+            FROM SanPham s
+            LEFT JOIN DanhMuc d ON s.DanhMucID = d.DanhMucID
+            LEFT JOIN KhuyenMai km ON s.KhuyenMaiID = km.KhuyenMaiID
+            WHERE (@DanhMucID = 0 OR @DanhMucID IS NULL OR s.DanhMucID = @DanhMucID)
+            ORDER BY s.NgayTao DESC
+            OFFSET 0 ROWS FETCH NEXT 12 ROWS ONLY";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
                 if (Request.QueryString["DanhMucID"] != null && int.TryParse(Request.QueryString["DanhMucID"], out int danhMucID))
                 {
                     cmd.Parameters.AddWithValue("@DanhMucID", danhMucID);
-                    //litDanhMuc.Text = GetTenDanhMuc(danhMucID);
-
-                    // Hiển thị nút "Xem tất cả" và thiết lập đường dẫn tương ứng
-                    //hlXemTatCa.Visible = true;
-                    //hlXemTatCa.NavigateUrl = GetCategoryPageUrl(danhMucID);
                 }
                 else
                 {
                     cmd.Parameters.AddWithValue("@DanhMucID", 0);
-                    //litDanhMuc.Text = "Tất cả sản phẩm";
-                    //hlXemTatCa.Visible = false;
                 }
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -102,6 +101,7 @@ namespace WebBanHang
                 Repeater2.DataBind();
             }
         }
+
 
         // Phương thức xác định trang danh mục tương ứng
         private string GetCategoryPageUrl(int danhMucID)
@@ -177,17 +177,31 @@ namespace WebBanHang
             return "category-link";
         }
 
-        
 
 
-        
+
+
         private void LoadSanPhamGiamGia()
         {
-            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
-            string query = @"SELECT TOP 10 * FROM SanPham 
-                    WHERE GiamGia = 1 
-                    AND GETDATE() BETWEEN ISNULL(NgayBatDauGiamGia, GETDATE()) AND ISNULL(NgayKetThucGiamGia, GETDATE())
-                    ORDER BY (GiaGoc - Gia) DESC"; // Giảm nhiều nhất đầu tiên
+            string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
+            string query = @"
+SELECT TOP 10 
+    s.SanPhamID,
+    s.TenSanPham,
+    s.AnhDaiDien,
+    s.Gia AS GiaGoc,
+    ISNULL(km.PhanTramGiam, 0) AS PhanTramGiam,
+    CASE 
+        WHEN km.PhanTramGiam IS NOT NULL THEN 
+            s.Gia - (s.Gia * km.PhanTramGiam / 100.0)
+        ELSE s.Gia 
+    END AS GiaSauGiam,
+    km.NgayKetThuc AS NgayKetThucGiamGia -- ✅ Đặt alias trùng tên Eval
+FROM SanPham s
+INNER JOIN KhuyenMai km ON s.KhuyenMaiID = km.KhuyenMaiID
+WHERE GETDATE() BETWEEN km.NgayBatDau AND km.NgayKetThuc
+ORDER BY km.PhanTramGiam DESC";
+
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -199,6 +213,7 @@ namespace WebBanHang
                 rptSanPhamGiamGia.DataBind();
             }
         }
+
         protected string GetRemainingTime(object endDateObj)
         {
             if (endDateObj == null || endDateObj == DBNull.Value)
@@ -217,7 +232,23 @@ namespace WebBanHang
         private void LoadSanPhamNoiBat1()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString;
-            string query = "SELECT TOP 8 * FROM SanPham WHERE NoiBat = 1 ORDER BY NgayTao DESC";
+            string query = @"
+SELECT TOP 8 
+    s.SanPhamID,
+    s.TenSanPham,
+    s.AnhDaiDien,
+    s.Gia AS GiaGoc,
+    ISNULL(km.PhanTramGiam, 0) AS PhanTramGiam,
+    CASE 
+        WHEN km.PhanTramGiam IS NOT NULL THEN 
+            s.Gia - (s.Gia * km.PhanTramGiam / 100.0)
+        ELSE s.Gia 
+    END AS GiaSauGiam
+FROM SanPham s
+LEFT JOIN KhuyenMai km ON s.KhuyenMaiID = km.KhuyenMaiID
+WHERE s.NoiBat = 1
+ORDER BY s.NgayTao DESC";
+
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -301,5 +332,21 @@ namespace WebBanHang
         {
 
         }
+        public static string HienThiGia(object giaGoc, object giaSauGiam, object phanTramGiam)
+        {
+            decimal goc = Convert.ToDecimal(giaGoc);
+            decimal giam = Convert.ToDecimal(giaSauGiam);
+            int phanTram = Convert.ToInt32(phanTramGiam);
+
+            if (phanTram > 0 && giam < goc)
+            {
+                return $"<span class='gia-goc'>{goc:N0}đ</span> <span class='gia-giam'>{giam:N0}đ</span> <span class='phan-tram-giam'>-{phanTram}%</span>";
+            }
+            else
+            {
+                return $"<span class='gia'>{goc:N0}đ</span>";
+            }
+        }
+
     }
 }

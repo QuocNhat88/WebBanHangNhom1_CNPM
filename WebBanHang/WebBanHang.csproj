@@ -53,6 +53,7 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -72,11 +73,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin\qlsanpham.aspx" />
+    <Content Include="BaoCaoDoanhThu.aspx" />
     <Content Include="chitietsp.aspx" />
+    <Content Include="css\admin-style.css" />
     <Content Include="css\style.css" />
     <Content Include="dangky.aspx" />
     <Content Include="dangnhap.aspx" />
     <Content Include="dienthoai.aspx" />
+    <Content Include="GiamGiaNV.aspx" />
     <Content Include="giohang.aspx" />
     <Content Include="Global.asax" />
     <Content Include="images\acer_aspire_vero.jpg" />
@@ -219,7 +223,10 @@
     <Content Include="phukien.aspx" />
     <Content Include="QLThue.aspx" />
     <Content Include="QlyPhanHoi.aspx" />
+    <Content Include="qlkm.aspx" />
+    <Content Include="qlsp.aspx" />
     <Content Include="thanhtoan.aspx" />
+    <Content Include="TraLoiLienHe.aspx" />
     <Content Include="trangchu.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -230,6 +237,13 @@
     </Compile>
     <Compile Include="admin\qlsanpham.aspx.designer.cs">
       <DependentUpon>qlsanpham.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaoCaoDoanhThu.aspx.cs">
+      <DependentUpon>BaoCaoDoanhThu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BaoCaoDoanhThu.aspx.designer.cs">
+      <DependentUpon>BaoCaoDoanhThu.aspx</DependentUpon>
     </Compile>
     <Compile Include="chitietsp.aspx.cs">
       <DependentUpon>chitietsp.aspx</DependentUpon>
@@ -258,6 +272,13 @@
     </Compile>
     <Compile Include="dienthoai.aspx.designer.cs">
       <DependentUpon>dienthoai.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GiamGiaNV.aspx.cs">
+      <DependentUpon>GiamGiaNV.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GiamGiaNV.aspx.designer.cs">
+      <DependentUpon>GiamGiaNV.aspx</DependentUpon>
     </Compile>
     <Compile Include="giohang.aspx.cs">
       <DependentUpon>giohang.aspx</DependentUpon>
@@ -301,10 +322,19 @@
     </Compile>
     <Compile Include="QlyPhanHoi.aspx.cs">
       <DependentUpon>QlyPhanHoi.aspx</DependentUpon>
+    <Compile Include="qlkm.aspx.cs">
+      <DependentUpon>qlkm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="QlyPhanHoi.aspx.designer.cs">
-      <DependentUpon>QlyPhanHoi.aspx</DependentUpon>
+    <Compile Include="qlkm.aspx.designer.cs">
+      <DependentUpon>qlkm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="qlsp.aspx.cs">
+      <DependentUpon>qlsp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="qlsp.aspx.designer.cs">
+      <DependentUpon>qlsp.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>
@@ -313,12 +343,26 @@
     <Compile Include="Site1.Master.designer.cs">
       <DependentUpon>Site1.Master</DependentUpon>
     </Compile>
+    <Compile Include="Site3.Master.cs">
+      <DependentUpon>Site3.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site3.Master.designer.cs">
+      <DependentUpon>Site3.Master</DependentUpon>
+    </Compile>
     <Compile Include="thanhtoan.aspx.cs">
       <DependentUpon>thanhtoan.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="thanhtoan.aspx.designer.cs">
       <DependentUpon>thanhtoan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TraLoiLienHe.aspx.cs">
+      <DependentUpon>TraLoiLienHe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TraLoiLienHe.aspx.designer.cs">
+      <DependentUpon>TraLoiLienHe.aspx</DependentUpon>
     </Compile>
     <Compile Include="trangchu.aspx.cs">
       <DependentUpon>trangchu.aspx</DependentUpon>
@@ -332,6 +376,7 @@
     <Content Include="Site1.Master" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\nvqn1 - Web Deploy.pubxml" />
+    <Content Include="Site3.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

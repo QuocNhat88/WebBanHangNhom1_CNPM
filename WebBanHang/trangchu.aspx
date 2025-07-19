@@ -107,10 +107,11 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
-            max-height: 900px; /* Chiều cao ban đầu */
+            max-height: 900px; /* hoặc 600px nếu muốn hiển thị 2 hàng */
             overflow: hidden;
             transition: max-height 0.5s ease;
         }
+
 
         .view-more-container {
             text-align: center;
@@ -277,53 +278,52 @@
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-
         }
 
         /*nháp*/
         .brand-grid {
-            justify-content:center;
-    display: flex;
-    flex-wrap: nowrap; /* Không xuống dòng */
-    gap: 10px;
-    overflow-x: auto; /* Cuộn ngang khi tràn */
-    padding: 10px 0;
-}
+            justify-content: center;
+            display: flex;
+            flex-wrap: nowrap; /* Không xuống dòng */
+            gap: 10px;
+            overflow-x: auto; /* Cuộn ngang khi tràn */
+            padding: 10px 0;
+        }
 
-.brand-grid a {
-    flex: 0 0 auto; /* Không co giãn */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 10px;
-    width:100px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #fff;
-    transition: transform 0.2s ease;
-    height: 40px;
-}
-
-.brand-grid a:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.brand-grid img {
-    max-width: 60px;
-    max-height: 30px;
-    object-fit: contain;
-}
-
-
-/*        -----------*/
-
-            .sidebar h3 {
-                margin-top: 0;
-                padding-bottom: 10px;
-                border-bottom: 1px solid #ddd;
-                color: #333;
+            .brand-grid a {
+                flex: 0 0 auto; /* Không co giãn */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 6px 10px;
+                width: 100px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                background-color: #fff;
+                transition: transform 0.2s ease;
+                height: 40px;
             }
+
+                .brand-grid a:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                }
+
+            .brand-grid img {
+                max-width: 60px;
+                max-height: 30px;
+                object-fit: contain;
+            }
+
+
+        /*        -----------*/
+
+        .sidebar h3 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            color: #333;
+        }
 
         .category-list {
             display: flex;
@@ -332,7 +332,7 @@
         }
 
         /* Nội dung chính */
-       
+
 
         /* Danh mục */
         .category-link {
@@ -683,95 +683,42 @@
 
     <div class="container">
         <div class="page-layout">
-            <!-- Sidebar danh mục bên trái -->
-           <%-- <div class="sidebar">
-                <h3>Danh mục sản phẩm</h3>
-                <div class="category-list">
-                    <asp:DataList ID="dlDanhMuc" runat="server">
+            <div>
+                <h2><i class="fas fa-star"></i>Gợi ý một số sản phẩm</h2>
+                <div class="product-list">
+
+                    <asp:Repeater ID="Repeater2" runat="server" OnItemCommand="Repeater2_ItemCommand">
                         <ItemTemplate>
-                            <asp:LinkButton ID="LinkButton1" runat="server"
-                                Text='<%# Eval("TenDanhMuc") %>'
-                                CommandArgument='<%# Eval("DanhMucID") %>'
-                                OnClick="LinkButton1_Click"
-                                CssClass='<%# GetActiveClass(Eval("DanhMucID").ToString()) %>'>
-                            </asp:LinkButton>
-                        </ItemTemplate>
-                    </asp:DataList>
-                </div>
-                <img src="/images/left.png" alt="Alternate Text" style="width: 210px; /* height: max-content; */
-    margin-top: 30px; border-radius: 5px; height: 450px;" />
-            </div>--%>
-            <%-----------------------------------------------------%>
-    <%--        <div class="sidebar">
-    <h3>Lựa chọn hãng</h3>
-    <div class="brand-grid">
-        <a href="#"><img src="/images/logoapple.png" alt="Apple" /></a>
-        <a href="#"><img src="/images/logosamsung1.png" alt="Samsung" /></a>
-        <a href="#"><img src="/images/logoxiaomi.png" alt="Xiaomi" /></a>
-        <a href="#"><img src="/images/nokia.png" alt="Nokia" /></a>
-                <a href="#"><img src="/images/oppo.png" alt="Oppo" /></a>
-        <a href="#"><img src="/images/realme.png" alt="Realme" /></a>
-        <a href="#"><img src="/images/vivo.png" alt="Vivo" /></a>
-        <a href="#"><img src="/images/sony1.png" alt="Sony" /></a>
-       
-
-      
-    </div>--%>
-
-  <%--  <im src="/images/left.png" alt="Alternate Text"
-         style="width: 210px; margin-top: 30px; border-radius: 5px; height: 450px;" />--%>
-<%--</div>--%>
-
-
-            <%------------------------------------------------------------%>
-            <!-- Nội dung sản phẩm bên phải -->
-            <div class="main-content">
-                <%--<div>
-                    <h2 style="margin-right: 10px">
-                        <asp:Literal ID="Literal1" runat="server" Text="Một Số sản phẩm"></asp:Literal>
-                    </h2>
-                    <asp:HyperLink ID="hlXemTatCa" runat="server" CssClass="view-all-btn" Visible="false">
-                    Xem tất cả sản phẩm 
-                    </asp:HyperLink>
-                </div>--%>
-                <div>
-                     <h2><i class="fas fa-star"></i> Gợi ý một số sản phẩm</h2>
-                    <div class="product-list">
-                       
-                        <asp:Repeater ID="Repeater2" runat="server" OnItemCommand="Repeater2_ItemCommand">
-                            <ItemTemplate>
-                                <div class="product-item">
-                                    <a href='chitietsp.aspx?id=<%# Eval("SanPhamID") %>'>
-                                        <img src='<%# "~/images/" + Eval("AnhDaiDien") %>' alt='<%# Eval("TenSanPham") %>' runat="server" />
-                                        <h3><%# Eval("TenSanPham") %></h3>
-                                    </a>
-                                    <div class="price-container">
-                                        <%# Convert.ToDecimal(Eval("GiaGoc")) > Convert.ToDecimal(Eval("Gia")) ? 
-                            "<div class='original-price'>" + Eval("GiaGoc", "{0:N0}") + " VNĐ</div>" : "" %>
-                                        <div class="price"><%# Eval("Gia", "{0:N0}") %> VNĐ</div>
-                                        <%# Convert.ToDecimal(Eval("GiaGoc")) > Convert.ToDecimal(Eval("Gia")) ? 
-                            "<div class='discount-badge'>-" + Math.Round((Convert.ToDecimal(Eval("GiaGoc")) - Convert.ToDecimal(Eval("Gia"))) / Convert.ToDecimal(Eval("GiaGoc")) * 100) + "%</div>" : "" %>
-                                    </div>
-                                    <div class="button-group">
-                                        <asp:Button ID="btnMuaNgay" runat="server" Text="Mua ngay"
-                                            CommandArgument='<%# Eval("SanPhamID") %>' OnClick="btnMuaNgay_Click" CssClass="btn-buy-now" />
-                                        <asp:Button ID="btnThemVaoGio" runat="server" Text="Thêm vào giỏ"
-                                            CommandArgument='<%# Eval("SanPhamID") %>' OnClick="btnThemVaoGio_Click" CssClass="btn-add-to-cart" />
-                                    </div>
+                            <div class="product-item">
+                                <a href='chitietsp.aspx?id=<%# Eval("SanPhamID") %>'>
+                                    <img src='<%# "~/images/" + Eval("AnhDaiDien") %>' alt='<%# Eval("TenSanPham") %>' runat="server" />
+                                    <h3><%# Eval("TenSanPham") %></h3>
+                                </a>
+                                <div class="price-container">
+                                    <%# HienThiGia(Eval("GiaGoc"), Eval("GiaSauGiam"), Eval("PhanTramGiam")) %>
                                 </div>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </div>
+
+                                <div class="button-group">
+                                    <asp:Button ID="btnMuaNgay" runat="server" Text="Mua ngay"
+                                        CommandArgument='<%# Eval("SanPhamID") %>' OnClick="btnMuaNgay_Click" CssClass="btn-buy-now" />
+                                    <asp:Button ID="btnThemVaoGio" runat="server" Text="Thêm vào giỏ"
+                                        CommandArgument='<%# Eval("SanPhamID") %>' OnClick="btnThemVaoGio_Click" CssClass="btn-add-to-cart" />
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </div>
             </div>
-
         </div>
+
+    </div>
     </div>
 
     <div style="background: #2c3e50; display: flex; justify-content: center; align-items: center; border-radius: 20px">
         <div class="product-sale-section">
-           <img src="images/hot.png" alt="Alternate Text" style="width: 100px;height:70px; border-radius: 10px;" /> <h2>Sản phẩm giảm giá </h2>
-            
+            <img src="images/hot.png" alt="Alternate Text" style="width: 100px; height: 70px; border-radius: 10px;" />
+            <h2>Sản phẩm giảm giá </h2>
+
             <div class="product-list">
                 <asp:Repeater ID="rptSanPhamGiamGia" runat="server">
                     <ItemTemplate>
@@ -782,12 +729,9 @@
                                 <h3><%# Eval("TenSanPham") %></h3>
                             </a>
                             <div class="price-container">
-                                <div class="original-price"><%# Eval("GiaGoc", "{0:N0}") %> VNĐ</div>
-                                <div class="price"><%# Eval("Gia", "{0:N0}") %> VNĐ</div>
-                                <div class="discount-badge">
-                                    -<%# Math.Round((Convert.ToDecimal(Eval("GiaGoc"))-Convert.ToDecimal(Eval("Gia")))/Convert.ToDecimal(Eval("GiaGoc"))*100) %>%
-                                </div>
+                                <%# HienThiGia(Eval("GiaGoc"), Eval("GiaSauGiam"), Eval("PhanTramGiam")) %>
                             </div>
+
                             <div class="button-group">
                                 <asp:Button ID="btnMuaNgaySale" runat="server" Text="Mua ngay"
                                     CommandArgument='<%# Eval("SanPhamID") %>' OnClick="btnMuaNgay_Click" CssClass="btn-buy-now" />
@@ -796,6 +740,7 @@
                             </div>
                             <div class="sale-time">
                                 <i class="fas fa-clock"></i>Còn <%# GetRemainingTime(Eval("NgayKetThucGiamGia")) %>
+                                <asp:Literal ID="litThoiGian" runat="server" Text='<%# GetRemainingTime(Eval("NgayKetThucGiamGia")) %>' />
                             </div>
                         </div>
                     </ItemTemplate>
@@ -838,12 +783,9 @@
                            "<div class='discount-percent'>-" + Math.Round((Convert.ToDecimal(Eval("GiaGoc"))-Convert.ToDecimal(Eval("Gia")))/Convert.ToDecimal(Eval("GiaGoc"))*100) + "%</div>" : "" %>
                         </div>--%>
                         <div class="price-container">
-                            <div class="original-price"><%# Eval("GiaGoc", "{0:N0}") %> VNĐ</div>
-                            <div class="price"><%# Eval("Gia", "{0:N0}") %> VNĐ</div>
-                            <div class="discount-badge">
-                                -<%# Math.Round((Convert.ToDecimal(Eval("GiaGoc"))-Convert.ToDecimal(Eval("Gia")))/Convert.ToDecimal(Eval("GiaGoc"))*100) %>%
-                            </div>
+                            <%# HienThiGia(Eval("GiaGoc"), Eval("GiaSauGiam"), Eval("PhanTramGiam")) %>
                         </div>
+
                         <div class="button-group">
                             <asp:Button ID="btnMuaNgay" runat="server" Text="Mua ngay"
                                 CommandArgument='<%# Eval("SanPhamID") %>' OnClick="btnMuaNgay_Click" CssClass="btn-buy" />

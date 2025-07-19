@@ -11,52 +11,43 @@ namespace WebBanHang
 {
 
 
-    public partial class LienHe
+    public partial class TraLoiLienHe
     {
 
         /// <summary>
-        /// lblThongBao control.
+        /// gvLienHe control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblThongBao;
+        protected global::System.Web.UI.WebControls.GridView gvLienHe;
 
         /// <summary>
-        /// txtTieuDe control.
+        /// pnlReply control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTieuDe;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlReply;
 
         /// <summary>
-        /// txtNoiDung control.
+        /// txtNoiDungPhanHoi control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNoiDung;
+        protected global::System.Web.UI.WebControls.TextBox txtNoiDungPhanHoi;
 
         /// <summary>
-        /// btnGui control.
+        /// btnGuiPhanHoi control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGui;
-
-        /// <summary>
-        /// gvLichSu control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvLichSu;
+        protected global::System.Web.UI.WebControls.Button btnGuiPhanHoi;
     }
 }

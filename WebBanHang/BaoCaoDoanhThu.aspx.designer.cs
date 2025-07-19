@@ -11,52 +11,52 @@ namespace WebBanHang
 {
 
 
-    public partial class LienHe
+    public partial class BaoCaoDoanhThu
     {
 
         /// <summary>
-        /// lblThongBao control.
+        /// btnDoanhThu control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblThongBao;
+        protected global::System.Web.UI.WebControls.Button btnDoanhThu;
 
         /// <summary>
-        /// txtTieuDe control.
+        /// btnBanChay control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTieuDe;
+        protected global::System.Web.UI.WebControls.Button btnBanChay;
 
         /// <summary>
-        /// txtNoiDung control.
+        /// btnTonKho control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNoiDung;
+        protected global::System.Web.UI.WebControls.Button btnTonKho;
 
         /// <summary>
-        /// btnGui control.
+        /// btnLaiLo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGui;
+        protected global::System.Web.UI.WebControls.Button btnLaiLo;
 
         /// <summary>
-        /// gvLichSu control.
+        /// gvBaoCao control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvLichSu;
+        protected global::System.Web.UI.WebControls.GridView gvBaoCao;
     }
 }
