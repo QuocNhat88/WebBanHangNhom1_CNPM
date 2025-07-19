@@ -151,16 +151,20 @@
         }
         
         /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
+     .modal {
+         display: none;
+         position: fixed;
+         z-index: 1000;
+         left: 0;
+         top: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0,0,0,0.5);
+     }
+
+         .modal.show {
+             display: block;
+         }
         
         .modal-content {
             background-color: #fff;
@@ -396,43 +400,171 @@
                 flex-wrap: wrap;
             }
         }
+        .order-details {
+            margin-top: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 25px;
+        }
+        
+        .order-details h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .order-table th {
+            background-color: #f8fafc;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .order-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .order-table tr:hover {
+            background-color: #fafbff;
+        }
+        
+        .order-id {
+            font-weight: 600;
+            color: var(--primary);
+        }
     </style>
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
     <div class="main-content">
         <div class="tax-container">
             <div class="page-header">
                 <h2 class="page-title"><i class="fas fa-file-invoice-dollar"></i> Quản Lý Thuế</h2>
-                <button class="tax-btn" onclick="openModal('updateTaxRateModal')">
-                    <i class="fas fa-sync-alt"></i> Cập nhật tỷ lệ thuế
-                </button>
+                <div class="tax-functions">
+                    <button type="button" class="tax-btn" onclick="openModal('updateTaxRateModal')" id="btnUpdateTaxRate">
+                        <i class="fas fa-sync-alt"></i> Cập nhật tỷ lệ thuế
+                    </button>
+                </div>
             </div>
 
-            <div class="alert alert-warning">
-                <i class="fas fa-exclamation-circle"></i> Tỷ lệ thuế hiện tại: <span id="currentTaxRate">10%</span>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Tỷ lệ thuế hiện tại: <span id="currentTaxRate"><%= CurrentTaxRate %>%</span>
             </div>
 
-            <h3><i class="fas fa-list"></i> Đơn hàng chờ tính thuế</h3>
-            <asp:HiddenField ID="hdnSelectedOrder" runat="server" />
-            <table class="tax-table">
-                <thead>
-                    <tr>
-                        <th>Chọn</th>
-                        <th>Mã đơn hàng</th>
-                        <th>Ngày đặt</th>
-                        <th>Khách hàng</th>
-                        <th>Tổng tiền</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody id="tax-order-table-body">
-                    <!-- Dữ liệu sẽ được tải từ server -->
-                </tbody>
-            </table>
+            <!-- Phần báo cáo thuế -->
+            <div class="report-container">
+                <div class="report-header">
+                    <h3 class="report-title"><i class="fas fa-chart-pie"></i> Báo cáo thuế</h3>
+                </div>
+                
+                <div class="period-selector">
+                    <div class="form-group">
+                        <label>Loại báo cáo</label>
+                        <select id="reportType" class="form-control" onchange="toggleReportPeriod()">
+                            <option value="daily">Theo ngày</option>
+                            <option value="monthly">Theo tháng</option>
+                            <option value="quarterly">Theo quý</option>
+                            <option value="annual">Theo năm</option>
+                            <option value="custom">Tùy chỉnh</option>
+                        </select>
+                    </div>
+                    
+                    <div id="dailySelection" class="form-group">
+                        <label>Chọn ngày</label>
+                        <input type="date" id="reportDay" class="form-control" value="<%= DateTime.Now.ToString("yyyy-MM-dd") %>" />
+                    </div>
+                    
+                    <div id="monthlySelection" class="form-group" style="display:none">
+                        <label>Chọn tháng</label>
+                        <input type="month" id="reportMonth" class="form-control" value="<%= DateTime.Now.ToString("yyyy-MM") %>" />
+                    </div>
+                    
+                    <div id="quarterlySelection" class="form-group" style="display:none">
+                        <label>Chọn quý</label>
+                        <select id="reportQuarter" class="form-control">
+                            <option value="1">Quý 1 (Tháng 1-3)</option>
+                            <option value="2">Quý 2 (Tháng 4-6)</option>
+                            <option value="3">Quý 3 (Tháng 7-9)</option>
+                            <option value="4">Quý 4 (Tháng 10-12)</option>
+                        </select>
+                        <select id="reportQuarterYear" class="form-control" style="margin-top: 10px;">
+                            <!-- Sẽ được điền bằng JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div id="annualSelection" class="form-group" style="display:none">
+                        <label>Chọn năm</label>
+                        <select id="reportYear" class="form-control">
+                            <!-- Sẽ được điền bằng JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div id="customSelection" class="form-group" style="display:none">
+                        <div class="form-group">
+                            <label>Từ ngày</label>
+                            <input type="date" id="startDate" class="form-control" value="<%= DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd") %>" />
+                        </div>
+                        <div class="form-group">
+                            <label>Đến ngày</label>
+                            <input type="date" id="endDate" class="form-control" value="<%= DateTime.Now.ToString("yyyy-MM-dd") %>" />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-summary" id="reportResults" style="display:none">
+                    <div class="summary-card">
+                        <h3>Tổng doanh thu</h3>
+                        <div class="value" id="totalRevenue">0 đ</div>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Tổng thuế</h3>
+                        <div class="value" id="totalTax">0 đ</div>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Số đơn hàng</h3>
+                        <div class="value" id="orderCount">0</div>
+                    </div>
+                </div>
+                <!-- Bảng chi tiết đơn hàng -->
+                <div class="order-details" id="orderDetails" style="display: none">
+                    <h3><i class="fas fa-list"></i>Chi tiết đơn hàng</h3>
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Ngày đặt</th>
+                                <th>Khách hàng</th>
+                                <th>Doanh thu</th>
+                                <th>Thuế</th>                              
+                            </tr>
+                        </thead>
+                        <tbody id="orderDetailsBody">
+                            <!-- Dữ liệu sẽ được điền bằng JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="export-options">
+                    <button type="button" class="btn btn-primary" onclick="generateReport()">Tạo báo cáo</button>
+                    <button type="button" class="btn btn-success" onclick="exportReport('pdf')">Xuất PDF</button>
+                    <button type="button" class="btn btn-success" onclick="exportReport('excel')">Xuất Excel</button>
+                </div>
+            </div>
         </div>
     </div>
+
 
     <!-- Modal cập nhật tỷ lệ thuế -->
     <div id="updateTaxRateModal" class="modal">
@@ -443,165 +575,274 @@
             </div>
             <div class="form-group">
                 <label for="newTaxRate">Tỷ lệ thuế mới (%)</label>
-                <input type="number" id="newTaxRate" class="form-control" min="0" max="100" step="0.1" value="10" />
+                <input type="number" id="newTaxRate" class="form-control" min="0" max="100" step="0.1" value="<%= CurrentTaxRate %>" />
             </div>
-            <div class="btn-group">
-                <button class="btn btn-cancel" onclick="closeModal('updateTaxRateModal')">Hủy</button>
-                <button class="btn btn-primary" onclick="updateTaxRate()">Cập nhật</button>
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i> Thay đổi tỷ lệ thuế sẽ chỉ ảnh hưởng đến các đơn hàng mới
             </div>
-        </div>
-    </div>
-
-    <!-- Modal áp dụng thuế -->
-    <div id="applyTaxModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title"><i class="fas fa-calculator"></i> Áp dụng thuế cho đơn hàng</h3>
-                <button class="close-btn" onclick="closeModal('applyTaxModal')">&times;</button>
-            </div>
-            <div class="form-group">
-                <label for="orderInfo">Đơn hàng</label>
-                <input type="text" id="orderInfo" class="form-control" readonly />
-            </div>
-            <div class="form-group">
-                <label for="taxRate">Tỷ lệ thuế (%)</label>
-                <input type="number" id="taxRate" class="form-control" value="10" min="0" max="100" step="0.1" />
-            </div>
-            <div class="tax-summary">
-                <div class="summary-item">
-                    <span>Tổng tiền hàng:</span>
-                    <span id="subtotal">0 đ</span>
-                </div>
-                <div class="summary-item">
-                    <span>Thuế (<span id="taxPercent">10</span>%):</span>
-                    <span id="taxAmount">0 đ</span>
-                </div>
-                <div class="summary-item total">
-                    <span>Tổng thanh toán:</span>
-                    <span id="totalWithTax">0 đ</span>
-                </div>
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-cancel" onclick="closeModal('applyTaxModal')">Hủy</button>
-                <button class="btn btn-success" onclick="applyTax()">Áp dụng thuế</button>
+            <div class="btn-group">             
+                <button type="button" class="btn btn-cancel" onclick="closeModal('updateTaxRateModal')">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="updateTaxRate()">Cập nhật</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Hàm tải dữ liệu đơn hàng
-        function loadOrders() {
-            PageMethods.LoadPendingOrders(onOrdersLoaded, onError);
+        // Biến toàn cục
+        let currentTaxRate = <%= CurrentTaxRate %>;
+        let isAdmin = <%= (Session["Role"] != null && Session["Role"].ToString() == "Admin").ToString().ToLower() %>;
+
+        // Hàm chuyển đổi hiển thị phần chọn kỳ báo cáo
+        function toggleReportPeriod() {
+            const reportType = document.getElementById('reportType').value;
+
+            // Ẩn tất cả
+            document.getElementById('dailySelection').style.display = 'none';
+            document.getElementById('monthlySelection').style.display = 'none';
+            document.getElementById('quarterlySelection').style.display = 'none';
+            document.getElementById('annualSelection').style.display = 'none';
+            document.getElementById('customSelection').style.display = 'none';
+
+            // Hiển thị phần được chọn
+            if (reportType === 'daily') {
+                document.getElementById('dailySelection').style.display = 'block';
+            } else if (reportType === 'monthly') {
+                document.getElementById('monthlySelection').style.display = 'block';
+            } else if (reportType === 'quarterly') {
+                document.getElementById('quarterlySelection').style.display = 'block';
+                // Điền năm cho quý (nếu chưa)
+                fillYearDropdown('reportQuarterYear', 5); // 5 năm gần đây
+            } else if (reportType === 'annual') {
+                document.getElementById('annualSelection').style.display = 'block';
+                fillYearDropdown('reportYear', 5); // 5 năm gần đây
+            } else if (reportType === 'custom') {
+                document.getElementById('customSelection').style.display = 'block';
+            }
         }
 
-        // Hàm xử lý khi tải đơn hàng thành công
-        function onOrdersLoaded(result) {
-            const orders = JSON.parse(result);
-            const tableBody = document.getElementById('tax-order-table-body');
-            tableBody.innerHTML = '';
+        // Điền năm vào dropdown
+        function fillYearDropdown(selectId, numberOfYears) {
+            const select = document.getElementById(selectId);
+            if (select.options.length === 0) {
+                const currentYear = new Date().getFullYear();
+                for (let i = 0; i < numberOfYears; i++) {
+                    const year = currentYear - i;
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    select.appendChild(option);
+                }
+            }
+        }
 
-            if (orders.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="7" class="text-center">Không có đơn hàng chờ tính thuế</td></tr>`;
-                return;
+        // Tạo báo cáo
+        function generateReport() {
+            const reportType = document.getElementById('reportType').value;
+            let startDate, endDate;
+
+            // Dựa vào reportType để xác định startDate và endDate
+            if (reportType === 'daily') {
+                const day = document.getElementById('reportDay').value;
+                if (!day) {
+                    alert('Vui lòng chọn ngày');
+                    return;
+                }
+                startDate = new Date(day);
+                endDate = new Date(day);
+                endDate.setDate(endDate.getDate() + 1); // Bao gồm cả ngày hôm đó
+            } else if (reportType === 'monthly') {
+                const monthValue = document.getElementById('reportMonth').value;
+                if (!monthValue) {
+                    alert('Vui lòng chọn tháng');
+                    return;
+                }
+                const [year, month] = monthValue.split('-');
+                startDate = new Date(year, month - 1, 1);
+                endDate = new Date(year, month, 0); // Ngày cuối cùng của tháng
+                endDate.setDate(endDate.getDate() + 1); // Để lấy hết ngày cuối
+            } else if (reportType === 'quarterly') {
+                const quarter = parseInt(document.getElementById('reportQuarter').value);
+                const year = parseInt(document.getElementById('reportQuarterYear').value);
+
+                if (quarter === 1) {
+                    startDate = new Date(year, 0, 1); // Jan 1
+                    endDate = new Date(year, 3, 0);   // Mar 31
+                } else if (quarter === 2) {
+                    startDate = new Date(year, 3, 1);   // Apr 1
+                    endDate = new Date(year, 6, 0);   // Jun 30
+                } else if (quarter === 3) {
+                    startDate = new Date(year, 6, 1);   // Jul 1
+                    endDate = new Date(year, 9, 0);   // Sep 30
+                } else if (quarter === 4) {
+                    startDate = new Date(year, 9, 1);   // Oct 1
+                    endDate = new Date(year, 12, 0);   // Dec 31
+                }
+            } else if (reportType === 'annual') {
+                const year = parseInt(document.getElementById('reportYear').value);
+                startDate = new Date(year, 0, 1);
+                endDate = new Date(year, 11, 31);
+            } else if (reportType === 'custom') {
+                startDate = new Date(document.getElementById('startDate').value);
+                endDate = new Date(document.getElementById('endDate').value);
+
+                if (isNaN(startDate) || isNaN(endDate)) {
+                    alert('Vui lòng chọn ngày hợp lệ');
+                    return;
+                }
+                // Đặt endDate là cuối ngày
+                endDate.setDate(endDate.getDate() + 1);
             }
 
-            orders.forEach(order => {
-                const row = createOrderRow(order);
-                tableBody.appendChild(row);
-            });
+            // Gọi server để lấy dữ liệu báo cáo
+            PageMethods.GenerateTaxReport(
+                startDate.toISOString(),
+                endDate.toISOString(),
+                function (result) {
+                    const report = JSON.parse(result);
+                    displayReportResults(report);
+                },
+                function (error) {
+                    console.error(error);
+                    alert('Có lỗi xảy ra khi tạo báo cáo');
+                }
+            );
         }
 
-        // Tạo dòng dữ liệu cho bảng
-        function createOrderRow(order) {
-            const tr = document.createElement('tr');
-            tr.className = 'select-row';
-            tr.dataset.id = order.id;
-            tr.onclick = () => selectOrder(order);
+        // Hiển thị kết quả báo cáo
+        //function displayReportResults(report) {
+        //    document.getElementById('totalRevenue').textContent = formatCurrency(report.TotalRevenue);
+        //    document.getElementById('totalTax').textContent = formatCurrency(report.TotalTax);
+        //    document.getElementById('orderCount').textContent = report.OrderCount;
+        //    document.getElementById('reportResults').style.display = 'grid';
+        //}
+        // Hiển thị kết quả báo cáo
+        function displayReportResults(report) {
+            // Hiển thị tổng hợp
+            document.getElementById('totalRevenue').textContent = formatCurrency(report.Summary.TotalRevenue);
+            document.getElementById('totalTax').textContent = formatCurrency(report.Summary.TotalTax);
+            document.getElementById('orderCount').textContent = report.Summary.OrderCount;
+            document.getElementById('reportResults').style.display = 'grid';
 
-            tr.innerHTML = `
-                <td><input type="radio" name="selectedOrder" value="${order.id}" /></td>
-                <td>${order.code}</td>
-                <td>${new Date(order.orderDate).toLocaleDateString()}</td>
-                <td>${order.customerName}</td>
-                <td>${order.totalAmount.toLocaleString()} đ</td>
-                <td><span class="status status-pending">Chờ tính thuế</span></td>
-                <td>
-                    <button class="action-btn" title="Tính thuế" onclick="event.stopPropagation(); openApplyTaxModal(${order.id})">
-                        <i class="fas fa-calculator"></i>
-                    </button>
-                </td>
-            `;
-            return tr;
+            // Hiển thị chi tiết đơn hàng
+            const orderDetailsBody = document.getElementById('orderDetailsBody');
+            orderDetailsBody.innerHTML = '';
+
+            if (report.Details && report.Details.length > 0) {
+                report.Details.forEach(order => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="order-id">DH${order.DonHangID.toString().padStart(6, '0')}</td>
+                        <td>${formatDate(order.NgayDat)}</td>
+                        <td>${order.HoTen}</td>
+                        <td>${formatCurrency(order.SubTotal)}</td>
+                        <td>${formatCurrency(order.TaxAmount)}</td>
+                        <td>${formatCurrency(order.TongTien)}</td>
+                    `;
+                    orderDetailsBody.appendChild(row);
+                });
+                document.getElementById('orderDetails').style.display = 'block';
+            } else {
+                document.getElementById('orderDetails').style.display = 'none';
+            }
         }
 
-        // Chọn đơn hàng
-        function selectOrder(order) {
-            document.querySelectorAll('.select-row').forEach(row => {
-                row.classList.remove('selected');
-            });
-            event.currentTarget.classList.add('selected');
-            document.getElementById('<%= hdnSelectedOrder.ClientID %>').value = order.id;
-        }
-
-        // Mở modal áp dụng thuế
-        function openApplyTaxModal(orderId) {
-            // TODO: Gọi server để lấy thông tin chi tiết đơn hàng
-            document.getElementById('orderInfo').value = `Đơn hàng #${orderId}`;
-            document.getElementById('<%= hdnSelectedOrder.ClientID %>').value = orderId;
-            openModal('applyTaxModal');
+        // Hàm định dạng tiền tệ
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
         }
 
         // Cập nhật tỷ lệ thuế
         function updateTaxRate() {
             const newTaxRate = parseFloat(document.getElementById('newTaxRate').value);
-            PageMethods.UpdateTaxRate(newTaxRate, onTaxRateUpdated, onError);
-        }
 
-        function onTaxRateUpdated(result) {
-            if (result) {
-                alert('Cập nhật tỷ lệ thuế thành công!');
-                document.getElementById('currentTaxRate').textContent = newTaxRate + '%';
-                closeModal('updateTaxRateModal');
-            } else {
-                alert('Có lỗi xảy ra khi cập nhật tỷ lệ thuế');
+            if (newTaxRate < 0 || newTaxRate > 100) {
+                alert('Tỷ lệ thuế phải nằm trong khoảng 0-100%');
+                return;
             }
+
+            PageMethods.UpdateTaxRate(newTaxRate, function (result) {
+                if (result) {
+                    alert('Cập nhật tỷ lệ thuế thành công!');
+                    document.getElementById('currentTaxRate').textContent = newTaxRate + '%';
+                    currentTaxRate = newTaxRate;
+                    closeModal('updateTaxRateModal');
+                } else {
+                    alert('Có lỗi xảy ra khi cập nhật tỷ lệ thuế');
+                }
+            }, function (error) {
+                console.error(error);
+                alert('Có lỗi xảy ra: ' + error.message);
+            });
         }
 
-        // Áp dụng thuế
-        function applyTax() {
-            const orderId = document.getElementById('<%= hdnSelectedOrder.ClientID %>').value;
-            const taxRate = parseFloat(document.getElementById('taxRate').value);
-            PageMethods.ApplyTax(orderId, taxRate, onTaxApplied, onError);
-        }
-
-        function onTaxApplied(result) {
-            if (result) {
-                alert('Áp dụng thuế thành công!');
-                closeModal('applyTaxModal');
-                loadOrders();
-            } else {
-                alert('Có lỗi xảy ra khi áp dụng thuế');
-            }
-        }
-
-        // Hàm xử lý lỗi
-        function onError(error) {
-            console.error(error);
-            alert('Có lỗi xảy ra: ' + error.get_message());
+        // Xuất báo cáo
+        function exportReport(format) {
+            alert(`Chức năng xuất ${format.toUpperCase()} đang được phát triển`);
+            // Triển khai thực tế sẽ gọi server để tạo file
         }
 
         // Quản lý modal
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
+        function openModal(id) {
+            document.getElementById(id).style.display = 'block';
         }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
         }
 
         // Khởi động khi trang tải xong
-        document.addEventListener('DOMContentLoaded', () => {
-            loadOrders();
+        document.addEventListener('DOMContentLoaded', function () {
+            toggleReportPeriod(); // Khởi tạo hiển thị
+
+            // Ẩn nút cập nhật thuế nếu không phải admin
+            if (!isAdmin) {
+                document.getElementById('btnUpdateTaxRate').style.display = 'none';
+            }
         });
+        // Hàm định dạng ngày tháng
+        function formatDate(dateString) {
+            // Xử lý cả định dạng .NET JSON Date
+            const match = /\/Date\((\d+)\)\//.exec(dateString);
+            const date = match
+                ? new Date(parseInt(match[1]))
+                : new Date(dateString);
+
+            if (isNaN(date)) return "Chưa xác định";
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        // Hiển thị kết quả báo cáo
+        function displayReportResults(report) {
+            // Hiển thị tổng hợp
+            document.getElementById('totalRevenue').textContent = formatCurrency(report.Summary.TotalRevenue);
+            document.getElementById('totalTax').textContent = formatCurrency(report.Summary.TotalTax);
+            document.getElementById('orderCount').textContent = report.Summary.OrderCount;
+            document.getElementById('reportResults').style.display = 'grid';
+
+            // Hiển thị chi tiết đơn hàng
+            const orderDetailsBody = document.getElementById('orderDetailsBody');
+            orderDetailsBody.innerHTML = '';
+
+            if (report.Details && report.Details.length > 0) {
+                report.Details.forEach(order => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                <td class="order-id">DH${order.DonHangID.toString().padStart(6, '0')}</td>
+                <td>${formatDate(order.NgayDat)}</td>
+                <td>${order.HoTen}</td>
+                <td>${formatCurrency(order.SubTotal)}</td>
+                <td>${formatCurrency(order.TaxAmount)}</td>
+            `;
+                    orderDetailsBody.appendChild(row);
+                });
+                document.getElementById('orderDetails').style.display = 'block';
+            } else {
+                document.getElementById('orderDetails').style.display = 'none';
+            }
+        }
+
+        
     </script>
 </asp:Content>

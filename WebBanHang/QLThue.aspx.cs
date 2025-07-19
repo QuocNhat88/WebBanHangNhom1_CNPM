@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Services;
+using System.Web.Script.Services;
+using System.Web.Configuration;
 using System.Web.Script.Serialization;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Web;
 
 namespace WebBanHang
 {
@@ -12,93 +14,169 @@ namespace WebBanHang
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            // Kiểm tra quyền admin để ẩn/hiện nút cập nhật thuế
+            if (!IsPostBack)
+            {
+                // Giả sử lưu vai trò trong Session
+                if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
+                {
+                    // Hiển thị nút cập nhật thuế
+                }
+                else
+                {
+                    // Ẩn nút cập nhật thuế (xử lý ở client)
+                }
+            }
         }
-            public static string LoadPendingOrders()
+
+        // Tỷ lệ thuế hiện tại
+        public decimal CurrentTaxRate
+        {
+            get
             {
-                try
+                // Lấy tỷ lệ thuế mới nhất từ database
+                using (var conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString))
                 {
-                    // 1. Lấy danh sách đơn hàng chờ tính thuế từ DB
-                    // var orders = OrderService.GetPendingTaxOrders();
-
-                    // 2. Chuyển sang JSON
-                    // return JsonConvert.SerializeObject(orders);
-
-                    // Ví dụ dữ liệu mẫu:
-                    var orders = new List<object> {
-            new { id = 1, code = "DH001", orderDate = DateTime.Now.AddDays(-2),
-                 customerName = "Nguyễn Văn A", totalAmount = 1500000 },
-            new { id = 2, code = "DH002", orderDate = DateTime.Now.AddDays(-1),
-                 customerName = "Trần Thị B", totalAmount = 2300000 }
-        };
-                    return new JavaScriptSerializer().Serialize(orders);
-                }
-                catch (Exception ex)
-                {
-                    // Ghi log lỗi
-                    return "[]";
+                    conn.Open();
+                    var query = "SELECT TOP 1 TaxRate FROM TaxConfig ORDER BY EffectiveFrom DESC";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        var result = cmd.ExecuteScalar();
+                        return result != null ? Convert.ToDecimal(result) : 10.00m;
+                    }
                 }
             }
-            public static bool UpdateTaxRate(double newTaxRate)
+        }
+
+        [WebMethod]
+        public static bool UpdateTaxRate(double newTaxRate)
+        {
+            // Kiểm tra quyền admin
+            if (HttpContext.Current.Session["Role"]?.ToString() != "Admin")
             {
-                try
-                {
-                    // 1. Validate dữ liệu
-                    if (newTaxRate < 0 || newTaxRate > 100) return false;
-
-                    // 2. Lưu tỷ lệ thuế mới vào DB/config
-                    // TaxConfigService.UpdateTaxRate(newTaxRate);
-
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-            public static bool ApplyTax(string orderId, double taxRate)
-            {
-                try
-                {
-                    // 1. Validate dữ liệu
-                    if (string.IsNullOrEmpty(orderId)) return false;
-
-                    // 2. Lấy đơn hàng từ DB
-                    // var order = OrderService.GetOrderById(orderId);
-
-                    // 3. Tính toán thuế
-                    // decimal taxAmount = order.Subtotal * (decimal)(taxRate / 100);
-                    // decimal totalWithTax = order.Subtotal + taxAmount;
-
-                    // 4. Cập nhật đơn hàng
-                    // order.TaxRate = taxRate;
-                    // order.TaxAmount = taxAmount;
-                    // order.TotalAmount = totalWithTax;
-                    // order.Status = OrderStatus.TaxApplied;
-
-                    // 5. Lưu vào database
-                    // OrderService.UpdateOrder(order);
-
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-            public class Order
-            {
-                public int Id { get; set; }
-                public string Code { get; set; }
-                public DateTime OrderDate { get; set; }
-                public string CustomerName { get; set; }
-                public decimal Subtotal { get; set; }
-                public double TaxRate { get; set; }
-                public decimal TaxAmount { get; set; }
-                public decimal TotalAmount { get; set; }
-                public string Status { get; set; }
+                return false;
             }
 
+            using (var conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString))
+            {
+                conn.Open();
+                var query = @"INSERT INTO TaxConfig (TaxRate, UpdatedBy) 
+                             VALUES (@TaxRate, @UpdatedBy)";
 
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@TaxRate", newTaxRate);
+                    cmd.Parameters.AddWithValue("@UpdatedBy", HttpContext.Current.Session["Username"]?.ToString() ?? "System");
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }
+        }
+        // Class cho kết quả báo cáo
+        public class TaxReportResult
+        {
+            public ReportSummary Summary { get; set; }
+            public List<OrderDetail> Details { get; set; }
+        }
+
+        public class ReportSummary
+        {
+            public decimal TotalRevenue { get; set; }
+            public decimal TotalTax { get; set; }
+            public int OrderCount { get; set; }
+        }
+
+        public class OrderDetail
+        {
+            public int DonHangID { get; set; }
+            public string HoTen { get; set; }
+            public DateTime NgayDat { get; set; }
+            public decimal SubTotal { get; set; }
+            public decimal TaxAmount { get; set; }         
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public static string GenerateTaxReport(string startDate, string endDate)
+        {
+            var report = new TaxReportResult
+            {
+                Summary = new ReportSummary(),
+                Details = new List<OrderDetail>()
+            };
+
+            DateTime start = DateTime.Parse(startDate);
+            DateTime end = DateTime.Parse(endDate);
+
+            using (var conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["BanHangConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                // Truy vấn tổng hợp
+                var summaryQuery = @"SELECT 
+                                SUM(SubTotal) AS TotalRevenue,
+                                SUM(TaxAmount) AS TotalTax,
+                                COUNT(*) AS OrderCount
+                              FROM DonHang
+                              WHERE TaxAmount > 0
+                                AND NgayDat >= @StartDate AND NgayDat < @EndDate";
+
+                using (var cmd = new SqlCommand(summaryQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@StartDate", start);
+                    cmd.Parameters.AddWithValue("@EndDate", end);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            report.Summary.TotalRevenue = reader["TotalRevenue"] != DBNull.Value ?
+                                Convert.ToDecimal(reader["TotalRevenue"]) : 0m;
+                            report.Summary.TotalTax = reader["TotalTax"] != DBNull.Value ?
+                                Convert.ToDecimal(reader["TotalTax"]) : 0m;
+                            report.Summary.OrderCount = Convert.ToInt32(reader["OrderCount"]);
+                        }
+                    }
+                }
+
+                // Truy vấn chi tiết đơn hàng
+                var detailQuery = @"SELECT  
+    dh.DonHangID,  
+    kh.HoTen,  
+    dh.NgayDat,  
+    dh.SubTotal,  
+    dh.TaxAmount  
+FROM DonHang dh  
+INNER JOIN KhachHang kh ON dh.KhachHangID = kh.KhachHangID  
+WHERE dh.TaxAmount > 0  
+    AND dh.NgayDat >= @StartDate AND dh.NgayDat < @EndDate  
+ORDER BY dh.NgayDat DESC  ";
+
+                using (var cmd = new SqlCommand(detailQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@StartDate", start);
+                    cmd.Parameters.AddWithValue("@EndDate", end);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var order = new OrderDetail
+                            {
+                                DonHangID = Convert.ToInt32(reader["DonHangID"]),
+                                HoTen = reader["HoTen"].ToString(),
+                                NgayDat = Convert.ToDateTime(reader["NgayDat"]),
+                                SubTotal = Convert.ToDecimal(reader["SubTotal"]),
+                                TaxAmount = Convert.ToDecimal(reader["TaxAmount"]),                 
+                            };
+                            report.Details.Add(order);
+                        }
+                    }
+                }
+            }
+
+            return new JavaScriptSerializer().Serialize(report);
         }
     }
+}
+

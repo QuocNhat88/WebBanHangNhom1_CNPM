@@ -43,6 +43,12 @@ CREATE TABLE DonHang (
     NgayDat DATETIME DEFAULT GETDATE(),
     TongTien DECIMAL(18,2),
     TrangThai NVARCHAR(50) DEFAULT N'Chờ xử lý'
+
+	ALTER TABLE DonHang
+	ADD 
+    TaxRate DECIMAL(5,2) DEFAULT 10.00 NOT NULL,
+    TaxAmount DECIMAL(18,2) DEFAULT 0 NOT NULL,
+    SubTotal DECIMAL(18,2) DEFAULT 0 NOT NULL;
 );
 --bước 7
 -- Tạo bảng ChiTietDonHang
@@ -54,6 +60,21 @@ CREATE TABLE ChiTietDonHang (
     DonGia DECIMAL(18,2) NOT NULL,
     ThanhTien DECIMAL(18,2) NOT NULL
 );
+ALTER TABLE ChiTietDonHang
+ADD UnitPriceBeforeTax DECIMAL(18,2) DEFAULT 0 NOT NULL;
+
+ALTER TABLE ChiTietDonHang
+DROP CONSTRAINT FK_ChiTietDonHang_DonHang;
+
+ALTER TABLE ChiTietDonHang
+ADD CONSTRAINT FK_ChiTietDonHang_DonHang
+FOREIGN KEY (DonHangID) REFERENCES DonHang(DonHangID) ON DELETE CASCADE;
+
+-- Cập nhật dữ liệu giá gốc
+UPDATE ChiTietDonHang
+SET UnitPriceBeforeTax = sp.GiaGoc
+FROM SanPham sp
+WHERE ChiTietDonHang.SanPhamID = sp.SanPhamID;
 --bước 8
 CREATE TABLE LienHe (
     LienHeID INT PRIMARY KEY IDENTITY(1,1),
@@ -326,6 +347,76 @@ UPDATE SanPham SET
 WHERE SanPhamID IN( 29,55) ;
 
 select * from sanpham
+
+---
+-- Bước 18: Tạo bảng PhanHoiAdmin để lưu trữ phản hồi từ Admin
+CREATE TABLE PhanHoiAdmin (
+    PhanHoiAdminID INT PRIMARY KEY IDENTITY(1,1),
+    LienHeID INT FOREIGN KEY REFERENCES LienHe(LienHeID),
+    NoiDungPhanHoi NVARCHAR(MAX) NOT NULL,
+    NgayPhanHoi DATETIME DEFAULT GETDATE(),
+    -- Có thể thêm AdminID nếu có bảng quản lý Admin
+    -- AdminID INT FOREIGN KEY REFERENCES Admin(AdminID)
+);
+-- Thue
+CREATE TABLE TaxConfig (
+    ConfigID INT PRIMARY KEY IDENTITY(1,1),
+    TaxRate DECIMAL(5,2) NOT NULL,
+    EffectiveFrom DATETIME NOT NULL DEFAULT GETDATE(),
+    UpdatedBy NVARCHAR(100),
+    UpdatedAt DATETIME DEFAULT GETDATE()
+);
+
+-- Chèn tỷ lệ thuế mặc định 10%
+INSERT INTO TaxConfig (TaxRate, UpdatedBy) 
+VALUES (10.00, 'System');
+
+-- Tính toán lại giá trị cho đơn hàng hiện tại
+UPDATE DonHang
+SET 
+    SubTotal = d.TotalBeforeTax,
+    TaxAmount = d.TotalBeforeTax * (d.TaxRate / 100),
+    TongTien = d.TotalBeforeTax * (1 + d.TaxRate / 100)
+FROM (
+    SELECT 
+        dh.DonHangID,
+        SUM(ct.SoLuong * sp.GiaGoc) AS TotalBeforeTax,
+        dh.TaxRate
+    FROM DonHang dh
+    JOIN ChiTietDonHang ct ON dh.DonHangID = ct.DonHangID
+    JOIN SanPham sp ON ct.SanPhamID = sp.SanPhamID
+    GROUP BY dh.DonHangID, dh.TaxRate
+) d
+WHERE DonHang.DonHangID = d.DonHangID;
+
+CREATE TABLE TaxReport (
+    ReportID INT PRIMARY KEY IDENTITY(1,1),
+    ReportType NVARCHAR(20) NOT NULL, -- 'Monthly', 'Quarterly', 'Annual'
+    StartDate DATE NOT NULL,
+    EndDate DATE NOT NULL,
+    TotalTax DECIMAL(18,2) NOT NULL,
+    TotalRevenue DECIMAL(18,2) NOT NULL,
+    GeneratedBy NVARCHAR(100) NOT NULL,
+    GeneratedAt DATETIME DEFAULT GETDATE()
+);
+
+SELECT DonHangID, SoLuong, DonGia, UnitPriceBeforeTax
+FROM ChiTietDonHangzzz
+WHERE DonHangID IN (8,9,10);
+
+UPDATE ChiTietDonHang
+SET UnitPriceBeforeTax = DonGia;
+
+SELECT DonHangID, SubTotal, TaxAmount, NgayDat
+FROM DonHang
+WHERE NgayDat BETWEEN '2025-07-17' AND '2025-07-18'
+
+
+
+
+
+
+
 
 
 
