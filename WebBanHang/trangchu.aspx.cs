@@ -18,7 +18,7 @@ namespace WebBanHang
         {
             if (!IsPostBack)
             {
-                LoadDanhMuc();
+                //LoadDanhMuc();
                 LoadSanPhamTheoDanhMuc();
                 
                 LoadSanPhamGiamGia();
@@ -78,7 +78,7 @@ namespace WebBanHang
             FROM SanPham s
             LEFT JOIN DanhMuc d ON s.DanhMucID = d.DanhMucID
             LEFT JOIN KhuyenMai km ON s.KhuyenMaiID = km.KhuyenMaiID
-            WHERE (@DanhMucID = 0 OR @DanhMucID IS NULL OR s.DanhMucID = @DanhMucID)
+            WHERE (@DanhMucID = 0 OR @DanhMucID IS NULL OR s.DanhMucID = @DanhMucID)  AND s.IsDeleted = 0
             ORDER BY s.NgayTao DESC
             OFFSET 0 ROWS FETCH NEXT 12 ROWS ONLY";
 
@@ -328,10 +328,7 @@ ORDER BY s.NgayTao DESC";
             Response.Redirect($"thanhtoan.aspx?id={productId}&quantity=1");
         }
 
-        protected void Repeater2_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-
-        }
+       
         public static string HienThiGia(object giaGoc, object giaSauGiam, object phanTramGiam)
         {
             decimal goc = Convert.ToDecimal(giaGoc);
@@ -348,5 +345,11 @@ ORDER BY s.NgayTao DESC";
             }
         }
 
+        protected void Repeater2_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+
+            //Response.Redirect("thanhtoan.aspx");
+            
+        }
     }
 }
