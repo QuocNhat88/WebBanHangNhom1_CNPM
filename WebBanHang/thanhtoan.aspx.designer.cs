@@ -15,6 +15,15 @@ namespace WebBanHang
     {
 
         /// <summary>
+        /// gvGioHang control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvGioHang;
+
+        /// <summary>
         /// txtHoTen control.
         /// </summary>
         /// <remarks>
@@ -24,22 +33,13 @@ namespace WebBanHang
         protected global::System.Web.UI.WebControls.TextBox txtHoTen;
 
         /// <summary>
-        /// txtDienThoai control.
+        /// txtSoDT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDienThoai;
-
-        /// <summary>
-        /// txtDiaChi control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDiaChi;
+        protected global::System.Web.UI.WebControls.TextBox txtSoDT;
 
         /// <summary>
         /// txtEmail control.
@@ -51,40 +51,22 @@ namespace WebBanHang
         protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
-        /// txtGhiChu control.
+        /// txtDiaChi control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGhiChu;
+        protected global::System.Web.UI.WebControls.TextBox txtDiaChi;
 
         /// <summary>
-        /// rbCOD control.
+        /// rblPaymentMethod control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbCOD;
-
-        /// <summary>
-        /// rbBankTransfer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbBankTransfer;
-
-        /// <summary>
-        /// gvDonHang control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvDonHang;
+        protected global::System.Web.UI.WebControls.RadioButtonList rblPaymentMethod;
 
         /// <summary>
         /// lblTamTinh control.
@@ -114,12 +96,12 @@ namespace WebBanHang
         protected global::System.Web.UI.WebControls.Label lblTongCong;
 
         /// <summary>
-        /// btnXacNhan control.
+        /// btnHoanTat control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnXacNhan;
+        protected global::System.Web.UI.WebControls.Button btnHoanTat;
     }
 }
